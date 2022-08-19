@@ -12,7 +12,7 @@ please let me know if you know anything about the WebUntis API that I don't!
 ### Installation
 
 ```bash
-$ npm install @arnim279/untis-api-client
+$ npm install untis-api-client
 ```
 
 ### Example
@@ -25,7 +25,7 @@ import {
   convertDateToUntis,
   convertSQLDateToUntis,
   setLogger,
-} from "@arnim279/untis-api-client";
+} from "untis-api-client";
 
 setLogger((method, duration) => {
   console.log(`completed WebUntis API request for ${method} in ${duration}ms`);
