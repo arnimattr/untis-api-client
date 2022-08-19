@@ -1,0 +1,44 @@
+{
+  "name": "untis-api-client",
+  "version": "0.1.0",
+  "description": "WebUntis API client",
+  "license": "GPL-3.0-or-later",
+  "author": "arnim279",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arnim279/untis-api-client"
+  },
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/src/index.js",
+      "require": "./dist/cjs/src/index.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && tsc-alias",
+    "build:esm": "tsc",
+    "build:cjs": "tsc -p ./tsconfig-cjs.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "format:check": "prettier --check .",
+    "format:apply": "prettier --write .",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@arnim279/schema-validator": "^1.0.3",
+    "set-cookie-parser": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/set-cookie-parser": "^2.4.2",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.1.0",
+    "tsc-alias": "^1.7.0",
+    "typescript": "^4.7.4",
+    "vitest": "^0.22.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

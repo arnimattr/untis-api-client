@@ -1,0 +1,12 @@
+# ignore config files
+/.prettierrc
+/.github/
+/.*
+
+# ignore TypeScript source code
+/src/
+/lib/
+/tsconfig*.json
+
+# ignore all tests
+tests

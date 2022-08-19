@@ -1,0 +1,13 @@
+export * as authenticate from "./authenticate";
+export { ErrorCode } from "./ErrorCode";
+export * as getClasses from "./getClasses";
+export * as getCurrentSchoolyear from "./getCurrentSchoolyear";
+export * as getHolidays from "./getHolidays";
+export * as latestImportTime from "./getLatestImportTime";
+export * as getRooms from "./getRooms";
+export * as getSchoolyears from "./getSchoolyears";
+export * as getSubjects from "./getSubjects";
+export * as getTeachers from "./getTeachers";
+export * as timetable from "./getTimetable";
+export * as logout from "./logout";
+export * as searchSchool from "./searchSchool";

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    /* module settings */
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "module": "ESNext",
+
+    /* build settings */
+    "outDir": "dist/esm",
+    "declaration": true,
+
+    /* code settings */
+    "strict": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* custom import paths */
+    "paths": {
+      "@lib/*": ["./lib/*"]
+    }
+  }
+}
