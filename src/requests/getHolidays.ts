@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { holiday, holidaySchema } from "../data";
+import { holiday, holidaySchema } from "../data/index.js";
 
 export const method = "getHolidays";
 

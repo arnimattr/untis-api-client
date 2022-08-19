@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { teacher, teacherSchema } from "../data";
+import { teacher, teacherSchema } from "../data/index.js";
 
 export const method = "getTeachers";
 

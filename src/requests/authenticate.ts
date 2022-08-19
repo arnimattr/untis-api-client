@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { ElementType } from "../data";
+import { ElementType } from "../data/index.js";
 
 export const method = "authenticate";
 

@@ -1,5 +1,8 @@
-import { convertUntisDateTimeToSQL } from "@lib/timeformat";
-import { element as untisElement, period as untisPeriod } from "../data";
+import { convertUntisDateTimeToSQL } from "@lib/timeformat/index.js";
+import {
+  element as untisElement,
+  period as untisPeriod,
+} from "../data/index.js";
 
 export type period = {
   id: number;

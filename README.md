@@ -22,10 +22,9 @@ import {
   UntisClient,
   LoginResult,
   searchSchoolsByName,
-  convertDateToUntis,
   convertSQLDateToUntis,
   setLogger,
-} from "untis-api-client";
+} from "@arnim279/untis-api-client";
 
 setLogger((method, duration) => {
   console.log(`completed WebUntis API request for ${method} in ${duration}ms`);
@@ -45,8 +44,7 @@ if (loginStatus !== LoginResult.Ok) {
 
 let currentSchoolyear = await c.getCurrentSchoolyear();
 
-let timetable = await c.getTimetable(
-  convertDateToUntis(new Date()),
+let timetable = await c.getOwnTimetableUntil(
   convertSQLDateToUntis(currentSchoolyear.endDate)
 );
 

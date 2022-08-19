@@ -1,5 +1,5 @@
-import { convertUntisDateToSQL } from "@lib/timeformat";
-import { holiday as untisHoliday } from "../data";
+import { convertUntisDateToSQL } from "@lib/timeformat/index.js";
+import { holiday as untisHoliday } from "../data/index.js";
 
 export type holiday = {
   id: number;

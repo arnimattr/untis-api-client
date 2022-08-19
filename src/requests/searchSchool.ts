@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { school, schoolSchema } from "../data/school";
+import { school, schoolSchema } from "../data/school.js";
 
 export const method = "searchSchool";
 

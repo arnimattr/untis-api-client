@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { schoolyear, schoolyearSchema } from "../data";
+import { schoolyear, schoolyearSchema } from "../data/index.js";
 
 export const method = "getCurrentSchoolyear";
 

@@ -1,7 +1,7 @@
 import { findSchemaError } from "@arnim279/schema-validator";
-import { RPCClient, RPCError } from "@lib/jsonrpc";
-import * as data from "./data";
-import { ErrorCode, searchSchool } from "./requests";
+import { RPCClient, RPCError } from "@lib/jsonrpc/index.js";
+import * as data from "./data/index.js";
+import { ErrorCode, searchSchool } from "./requests/index.js";
 
 const rpcClient = new RPCClient("https://mobile.webuntis.com/ms/schoolquery2");
 
@@ -11,9 +11,7 @@ async function findSchools(query: searchSchool.params): Promise<data.school[]> {
     response = await rpcClient.request(searchSchool.method, query);
   } catch (e) {
     if (e instanceof RPCError && e.code == ErrorCode.TooManyResults) return [];
-    else {
-      //log error
-    }
+    throw e;
   }
 
   let err = findSchemaError(response, searchSchool.resultSchema);

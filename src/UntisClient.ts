@@ -1,12 +1,9 @@
-import {
-  findSchemaError,
-  schema,
-  SchemaErrorType,
-} from "@arnim279/schema-validator";
-import { RPCClient, RPCError } from "@lib/jsonrpc";
-import * as data from "./data";
-import * as request from "./requests";
-import * as wrappers from "./wrappers";
+import { findSchemaError, schema } from "@arnim279/schema-validator";
+import { RPCClient, RPCError } from "@lib/jsonrpc/index.js";
+import { convertDateToUntis } from "@lib/timeformat/index.js";
+import * as data from "./data/index.js";
+import * as request from "./requests/index.js";
+import * as wrappers from "./wrappers/index.js";
 
 export enum LoginResult {
   /**
@@ -37,6 +34,7 @@ export class UntisClient {
   /**
    * Creates a new client.
    * @param untisInstance the school's WebUntis API instance, e.g. `ikarus.webuntis.com`
+   * @param schoolName the school's loginName
    */
   constructor(untisInstance: string, schoolName: string) {
     let url = new URL(`https://${untisInstance}/WebUntis/jsonrpc.do`);
@@ -62,13 +60,7 @@ export class UntisClient {
     let response = await this.rpcClient.request(method, params);
 
     let err = findSchemaError(response, schema);
-    if (err !== undefined) {
-      if (err.only(SchemaErrorType.UnknownProperty)) {
-        // log "additional property detected"
-      } else {
-        throw err;
-      }
-    }
+    if (err !== undefined) throw err;
 
     return response as Response;
   }
@@ -204,19 +196,53 @@ export class UntisClient {
   }
 
   /**
-   * Gets the timetable for the current user in the specificed time range.
-   * @param startDate start of the time range
-   * @param endDate end of the time range
+   * Gets the timetable for the current user from now until the specified date.
+   * @param endDate end of the time range, formatted as `yyyymmdd`
    * @returns a list of all periods the user is part of
    */
-  getTimetable(startDate: string, endDate: string): Promise<wrappers.period[]> {
-    let userData = this.getUserData();
+  getOwnTimetableUntil(endDate: string): Promise<wrappers.period[]> {
+    return this.getOwnTimetable(convertDateToUntis(new Date()), endDate);
+  }
 
+  /**
+   * Gets the timetable for the current user in the specificed time range.
+   * @param startDate start of the time range, formatted as `yyyymmdd`
+   * @param endDate end of the time range, formatted as `yyyymmdd`
+   * @returns a list of all periods the user is part of
+   */
+  getOwnTimetable(
+    startDate: string,
+    endDate: string
+  ): Promise<wrappers.period[]> {
+    let userData = this.getUserData();
+    return this.getTimetableForElement(
+      startDate,
+      endDate,
+      userData.type,
+      userData.id
+    );
+  }
+
+  /**
+   * Gets the timetable for the given element in the specificed time range.
+   * May throw a JSON-RPC error if the current user doesn't have the necessary permissions.
+   * @param startDate start of the time range, formatted as `yyyymmdd`
+   * @param endDate end of the time range, formatted as `yyyymmdd`
+   * @param type the type of element
+   * @param id the element's id
+   * @returns a list of all periods the user is part of
+   */
+  getTimetableForElement(
+    startDate: string,
+    endDate: string,
+    type: data.ElementType.Teacher | data.ElementType.Student,
+    id: number
+  ): Promise<wrappers.period[]> {
     let params: request.timetable.params = {
       options: {
         element: {
-          id: userData.id,
-          type: userData.type,
+          id,
+          type,
         },
         startDate: startDate,
         endDate: endDate,
@@ -243,6 +269,7 @@ export class UntisClient {
   /**
    * Returns data about the current user.
    * @returns the data
+   * @throws {@link Error} if the client is not logged in
    */
   getUserData() {
     if (!this.loginData || !this.loginName) {

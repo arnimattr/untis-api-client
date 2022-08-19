@@ -1,11 +1,13 @@
-export { setLogger } from "@lib/jsonrpc";
+export { setLogger } from "@lib/jsonrpc/index.js";
+export * from "@lib/timeformat/index.js";
 export {
-  convertDateToUntis,
-  convertSQLDateToUntis,
-  convertUntisDateTimeToSQL,
-  convertUntisDateToSQL,
-} from "@lib/timeformat";
-export { room, school, schoolClass, student, subject, teacher } from "./data";
-export { getSchoolById, searchSchoolsByName } from "./searchSchools";
-export { LoginResult, UntisClient } from "./UntisClient";
-export { holiday, period, schoolyear } from "./wrappers";
+  room,
+  school,
+  schoolClass,
+  student,
+  subject,
+  teacher,
+} from "./data/index.js";
+export { getSchoolById, searchSchoolsByName } from "./searchSchools.js";
+export { LoginResult, UntisClient } from "./UntisClient.js";
+export { holiday, period, schoolyear } from "./wrappers/index.js";

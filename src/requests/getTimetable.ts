@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { ElementType, period, periodSchema } from "../data";
+import { ElementType, period, periodSchema } from "../data/index.js";
 
 export const method = "getTimetable";
 

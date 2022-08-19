@@ -1,2 +1,2 @@
-export { setLogger } from "./logger";
-export { HTTPStatusError, RPCClient, RPCError } from "./RPCClient";
+export { setLogger } from "./logger.js";
+export { HTTPStatusError, RPCClient, RPCError } from "./RPCClient.js";

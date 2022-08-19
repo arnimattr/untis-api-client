@@ -1,5 +1,5 @@
 import { schema } from "@arnim279/schema-validator";
-import { room, roomSchema } from "../data";
+import { room, roomSchema } from "../data/index.js";
 
 export const method = "getRooms";
 

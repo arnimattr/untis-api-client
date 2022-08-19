@@ -1,5 +1,5 @@
-import { convertUntisDateToSQL } from "@lib/timeformat";
-import { schoolyear as untisSchoolyear } from "../data";
+import { convertUntisDateToSQL } from "@lib/timeformat/index.js";
+import { schoolyear as untisSchoolyear } from "../data/index.js";
 
 export type schoolyear = {
   id: number;

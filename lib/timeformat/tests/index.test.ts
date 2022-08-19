@@ -4,7 +4,7 @@ import {
   convertSQLDateToUntis,
   convertUntisDateTimeToSQL,
   convertUntisDateToSQL,
-} from "..";
+} from "../index.js";
 
 describe("convertUntisDate", () => {
   it("converts dates", () => {

@@ -1,6 +1,7 @@
 import { findSchemaError, schema } from "@arnim279/schema-validator";
+import fetch from "node-fetch";
 import { parse as parseCookieHeader } from "set-cookie-parser";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 
 type rpcRequest = {
   jsonrpc: "2.0";
