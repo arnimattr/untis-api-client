@@ -152,6 +152,17 @@ export class UntisClient {
   }
 
   /**
+   * Makes a request to get all students.
+   * @returns a list of students
+   */
+  getStudents(): Promise<data.student[]> {
+    return this.request<request.getStudents.result>(
+      request.getStudents.method,
+      request.getStudents.resultSchema
+    );
+  }
+
+  /**
    * Makes a request to get all schoolyears.
    * @returns a list of schoolyears.
    */

@@ -6,6 +6,7 @@ export * as getHolidays from "./getHolidays.js";
 export * as latestImportTime from "./getLatestImportTime.js";
 export * as getRooms from "./getRooms.js";
 export * as getSchoolyears from "./getSchoolyears.js";
+export * as getStudents from "./getStudents.js";
 export * as getSubjects from "./getSubjects.js";
 export * as getTeachers from "./getTeachers.js";
 export * as timetable from "./getTimetable.js";
