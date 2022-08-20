@@ -3,6 +3,11 @@ import { schema } from "@arnim279/schema-validator";
 export type element = {
   id: number;
   name: string;
+
+  /**
+   * If this is not `undefined`, this is the id of the original element and
+   * `element.id` is its substitution.
+   */
   orgid?: number;
   orgname?: string;
 };

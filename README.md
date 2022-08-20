@@ -24,7 +24,7 @@ import {
   searchSchoolsByName,
   convertSQLDateToUntis,
   setLogger,
-} from "@arnim279/untis-api-client";
+} from "untis-api-client";
 
 setLogger((method, duration) => {
   console.log(`completed WebUntis API request for ${method} in ${duration}ms`);

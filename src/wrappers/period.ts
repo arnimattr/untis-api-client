@@ -35,16 +35,11 @@ export type period = {
   activityType: "Unterricht" | "Bereitschaft";
 
   elements: {
-    classes: element[];
-    teachers: element[];
-    subjects: element[];
-    rooms: element[];
+    classes: untisElement[];
+    teachers: untisElement[];
+    subjects: untisElement[];
+    rooms: untisElement[];
   };
-};
-
-export type element = {
-  id: number;
-  name: string;
 };
 
 // maybe write tests for this idk
@@ -68,16 +63,9 @@ export const makePeriod = (p: untisPeriod): period => ({
   substitutionText: p.substText,
   activityType: p.activityType,
   elements: {
-    classes: p.kl.map(makeElement),
-    teachers: p.te.map(makeElement),
-    subjects: p.su.map(makeElement),
-    rooms: p.ro.map(makeElement),
+    classes: p.kl,
+    teachers: p.te,
+    subjects: p.su,
+    rooms: p.ro,
   },
-});
-
-// TODO: replaced elements have orgid and orgname for the original element, what should happen to that?
-
-export const makeElement = (e: untisElement): element => ({
-  id: e.id,
-  name: e.name,
 });
