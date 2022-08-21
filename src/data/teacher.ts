@@ -13,6 +13,7 @@ export type teacher = {
 export const teacherSchema: schema = {
   type: "object",
   properties: {
+    id: "int",
     name: "string",
     foreName: "string",
     longName: "string",

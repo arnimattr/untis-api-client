@@ -1,4 +1,4 @@
-import { convertUntisDateTimeToSQL } from "@lib/timeformat/index.js";
+import { convertDate, convertDateTime } from "@lib/timeformat/index.js";
 import {
   element as untisElement,
   period as untisPeriod,
@@ -8,16 +8,19 @@ export type period = {
   id: number;
 
   /**
-   * Start time of the period, formatted according to the SQL datetime format `yyyy-mm-dd hh:mm:ss`.
-   * Can be parsed into a JavaScript Date using `new Date(period.startTime)`
+   * Period date
    */
-  startTime: string;
+  date: Date;
 
   /**
-   * End time of the period, formatted according to the SQL datetime format `yyyy-mm-dd hh:mm:ss`.
-   * Can be parsed into a JavaScript Date using `new Date(period.endTime)`
+   * Start time of the period as UTC.
    */
-  endTime: string;
+  startTime: Date;
+
+  /**
+   * End time of the period as UTC.
+   */
+  endTime: Date;
 
   lessonType: "lesson" | "officeHour" | "standby" | "breakSupervision" | "exam";
 
@@ -45,8 +48,9 @@ export type period = {
 // maybe write tests for this idk
 export const makePeriod = (p: untisPeriod): period => ({
   id: p.id,
-  startTime: convertUntisDateTimeToSQL(p.date, p.startTime),
-  endTime: convertUntisDateTimeToSQL(p.date, p.endTime),
+  date: convertDate(p.date),
+  startTime: convertDateTime(p.date, p.startTime),
+  endTime: convertDateTime(p.date, p.endTime),
   lessonType:
     p.lstype === undefined || p.lstype === "ls"
       ? "lesson"

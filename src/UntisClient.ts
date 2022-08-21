@@ -208,23 +208,20 @@ export class UntisClient {
 
   /**
    * Gets the timetable for the current user from now until the specified date.
-   * @param endDate end of the time range, formatted as `yyyymmdd`
+   * @param endDate end of the time range
    * @returns a list of all periods the user is part of
    */
-  getOwnTimetableUntil(endDate: string): Promise<wrappers.period[]> {
-    return this.getOwnTimetable(convertDateToUntis(new Date()), endDate);
+  getOwnTimetableUntil(endDate: Date): Promise<wrappers.period[]> {
+    return this.getOwnTimetable(new Date(), endDate);
   }
 
   /**
    * Gets the timetable for the current user in the specificed time range.
-   * @param startDate start of the time range, formatted as `yyyymmdd`
-   * @param endDate end of the time range, formatted as `yyyymmdd`
+   * @param startDate start of the time range
+   * @param endDate end of the time range
    * @returns a list of all periods the user is part of
    */
-  getOwnTimetable(
-    startDate: string,
-    endDate: string
-  ): Promise<wrappers.period[]> {
+  getOwnTimetable(startDate: Date, endDate: Date): Promise<wrappers.period[]> {
     let userData = this.getUserData();
     return this.getTimetableForElement(
       startDate,
@@ -237,15 +234,15 @@ export class UntisClient {
   /**
    * Gets the timetable for the given element in the specificed time range.
    * May throw a JSON-RPC error if the current user doesn't have the necessary permissions.
-   * @param startDate start of the time range, formatted as `yyyymmdd`
-   * @param endDate end of the time range, formatted as `yyyymmdd`
+   * @param startDate start of the time range
+   * @param endDate end of the time range
    * @param type the type of element
    * @param id the element's id
    * @returns a list of all periods the user is part of
    */
   getTimetableForElement(
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
     type: data.ElementType.Teacher | data.ElementType.Student,
     id: number
   ): Promise<wrappers.period[]> {
@@ -255,8 +252,8 @@ export class UntisClient {
           id,
           type,
         },
-        startDate: startDate,
-        endDate: endDate,
+        startDate: convertDateToUntis(startDate),
+        endDate: convertDateToUntis(endDate),
         showBooking: true,
         showInfo: true,
         showSubstText: true,
@@ -288,9 +285,10 @@ export class UntisClient {
     }
 
     return {
+      loginName: this.loginName,
       type: this.loginData.personType,
       id: this.loginData.personId,
-      loginName: this.loginName,
+      classId: this.loginData.klasseId,
     };
   }
 }

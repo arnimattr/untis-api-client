@@ -5,7 +5,12 @@ export type schoolClass = {
   name: string;
   longName: string;
   active: boolean;
+  teacher1?: number;
+  foreColor?: string;
+  backColor?: string;
 };
+
+const colorValidator = (v: string) => v.length === 6 || "not a valid hex color";
 
 export const schoolClassSchema: schema = {
   type: "object",
@@ -14,5 +19,8 @@ export const schoolClassSchema: schema = {
     name: "string",
     longName: "string",
     active: "bool",
+    teacher1: { type: "int", optional: true },
+    foreColor: { type: "string", optional: true, validator: colorValidator },
+    backColor: { type: "string", optional: true, validator: colorValidator },
   },
 };

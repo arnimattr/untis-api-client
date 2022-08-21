@@ -6,7 +6,11 @@ export type subject = {
   longName: string;
   alternateName: string;
   active: boolean;
+  foreColor?: string;
+  backColor?: string;
 };
+
+const colorValidator = (v: string) => v.length === 6 || "not a valid hex color";
 
 export const subjectSchema: schema = {
   type: "object",
@@ -16,5 +20,7 @@ export const subjectSchema: schema = {
     longName: "string",
     alternateName: "string",
     active: "bool",
+    foreColor: { type: "string", optional: true, validator: colorValidator },
+    backColor: { type: "string", optional: true, validator: colorValidator },
   },
 };

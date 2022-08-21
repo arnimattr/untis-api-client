@@ -15,10 +15,7 @@ async function findSchools(query: searchSchool.params): Promise<data.school[]> {
   }
 
   let err = findSchemaError(response, searchSchool.resultSchema);
-  if (err !== undefined) {
-    // log error
-    return [];
-  }
+  if (err !== undefined) throw err;
 
   let { schools } = response as searchSchool.result;
   return schools;

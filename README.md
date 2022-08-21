@@ -19,14 +19,13 @@ $ npm install untis-api-client
 
 ```ts
 import {
-  UntisClient,
   LoginResult,
   searchSchoolsByName,
-  convertSQLDateToUntis,
-  setLogger,
+  setJSONRPCRequestLogger,
+  UntisClient,
 } from "untis-api-client";
 
-setLogger((method, duration) => {
+setJSONRPCRequestLogger((method, duration) => {
   console.log(`completed WebUntis API request for ${method} in ${duration}ms`);
 });
 
@@ -44,16 +43,13 @@ if (loginStatus !== LoginResult.Ok) {
 
 let currentSchoolyear = await c.getCurrentSchoolyear();
 
-let timetable = await c.getOwnTimetableUntil(
-  convertSQLDateToUntis(currentSchoolyear.endDate)
-);
+let timetable = await c.getOwnTimetableUntil(currentSchoolyear.endDate);
 
 // "An application should always logout as soon as possible
 // to free system resources on the server."
 c.logout();
 
 for (let period of timetable) {
-  // profit
   console.log(period);
 }
 ```

@@ -1,39 +1,48 @@
 import { assert, describe, it } from "vitest";
 import {
+  convertDate,
+  convertDateTime,
   convertDateToUntis,
-  convertSQLDateToUntis,
-  convertUntisDateTimeToSQL,
-  convertUntisDateToSQL,
+  parseDate,
+  parseDateTime,
 } from "../index.js";
 
-describe("convertUntisDate", () => {
-  it("converts dates", () => {
-    assert.equal(convertUntisDateToSQL("20220819"), "2022-08-19");
+describe("parseDate()", () => {
+  it("parses dates", () => {
+    assert.equal(parseDate(20220820), "2022-08-20");
   });
 });
 
-describe("convertUntisDateTime", () => {
+describe("parseDateTime()", () => {
+  it("parses datetimes", () => {
+    assert.equal(parseDateTime(20220820, 1300), "2022-08-20T13:00");
+  });
+
+  it("parses datetimes with a single-digit hour", () => {
+    assert.equal(parseDateTime(20220820, 530), "2022-08-20T05:30");
+  });
+});
+
+describe("convertDate()", () => {
+  it("converts dates", () => {
+    assert.equal(
+      convertDate("20220820").toISOString(),
+      "2022-08-20T00:00:00.000Z"
+    );
+  });
+});
+
+describe("convertDateTime()", () => {
   it("converts datetimes", () => {
     assert.equal(
-      convertUntisDateTimeToSQL("20220819", "1305"),
-      "2022-08-19 13:05:00"
-    );
-  });
-
-  it("converts datetimes with single-digit hours", () => {
-    assert.equal(
-      convertUntisDateTimeToSQL("20220819", "905"),
-      "2022-08-19 09:05:00"
+      convertDateTime(20220820, 430).toISOString(),
+      "2022-08-20T04:30:00.000Z"
     );
   });
 });
 
-describe("convertSQLDateToUntis", () => {
-  it("converts dates", () => {
-    assert.equal(convertSQLDateToUntis("2022-10-19"), "20221019");
-  });
-
-  it("works with single-digit months and days", () => {
-    assert.equal(convertDateToUntis(new Date("2022-08-09")), "20220809");
+describe("convertDateToUntis()", () => {
+  it("converts date objects to a untis format", () => {
+    assert.equal(convertDateToUntis(new Date("2022-08-20")), "20220820");
   });
 });

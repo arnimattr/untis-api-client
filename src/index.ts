@@ -1,6 +1,7 @@
-export { setLogger } from "@lib/jsonrpc/index.js";
+export { setLogger as setJSONRPCRequestLogger } from "@lib/jsonrpc/index.js";
 export * from "@lib/timeformat/index.js";
 export {
+  ElementType,
   room,
   school,
   schoolClass,

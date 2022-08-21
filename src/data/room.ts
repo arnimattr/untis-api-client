@@ -6,6 +6,7 @@ export type room = {
   longName: string;
   active: boolean;
   building: string;
+  did?: number;
   foreColor?: string;
   backColor?: string;
 };
@@ -20,6 +21,7 @@ export const roomSchema: schema = {
     longName: "string",
     active: "bool",
     building: "string",
+    did: { type: "int", optional: true },
     foreColor: { type: "string", optional: true, validator: colorValidator },
     backColor: { type: "string", optional: true, validator: colorValidator },
   },

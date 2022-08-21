@@ -1,4 +1,4 @@
-import { convertUntisDateToSQL } from "@lib/timeformat/index.js";
+import { convertDate } from "@lib/timeformat/index.js";
 import { holiday as untisHoliday } from "../data/index.js";
 
 export type holiday = {
@@ -7,20 +7,18 @@ export type holiday = {
   longName: string;
 
   /**
-   * Start date of the holiday, formatted according to the SQL date format `yyyy-mm-dd`.
-   * Can be parsed into a JavaScript Date using `new Date(holiday.startDate)`
+   * Start date of the holiday.
    */
-  startDate: string;
+  startDate: Date;
 
   /**
-   * End date of the holiday, formatted according to the SQL date format `yyyy-mm-dd`.
-   * Can be parsed into a JavaScript Date using `new Date(holiday.endDate)`
+   * End date of the holiday.
    */
-  endDate: string;
+  endDate: Date;
 };
 
 export const makeHoliday = (h: untisHoliday): holiday => ({
   ...h,
-  startDate: convertUntisDateToSQL(h.startDate),
-  endDate: convertUntisDateToSQL(h.endDate),
+  startDate: convertDate(h.startDate),
+  endDate: convertDate(h.endDate),
 });

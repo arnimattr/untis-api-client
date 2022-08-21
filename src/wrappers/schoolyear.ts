@@ -1,4 +1,4 @@
-import { convertUntisDateToSQL } from "@lib/timeformat/index.js";
+import { convertDate } from "@lib/timeformat/index.js";
 import { schoolyear as untisSchoolyear } from "../data/index.js";
 
 export type schoolyear = {
@@ -6,20 +6,18 @@ export type schoolyear = {
   name: string;
 
   /**
-   * Start date of the schoolyear, formatted according to the SQL date format `yyyy-mm-dd`.
-   * Can be parsed into a JavaScript Date using `new Date(schoolyear.startDate)`
+   * Start date of the schoolyear.
    */
-  startDate: string;
+  startDate: Date;
 
   /**
-   * End date of the schoolyear, formatted according to the SQL date format `yyyy-mm-dd`.
-   * Can be parsed into a JavaScript Date using `new Date(schoolyear.endDate)`
+   * End date of the schoolyear.
    */
-  endDate: string;
+  endDate: Date;
 };
 
 export const makeSchoolyear = (s: untisSchoolyear): schoolyear => ({
   ...s,
-  startDate: convertUntisDateToSQL(s.startDate),
-  endDate: convertUntisDateToSQL(s.endDate),
+  startDate: convertDate(s.startDate),
+  endDate: convertDate(s.endDate),
 });
