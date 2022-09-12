@@ -23,7 +23,7 @@ export type period = {
   lstext: string;
   substText?: string;
   activityType: "Unterricht" | "Bereitschaft";
-  sg: string;
+  sg?: string;
   kl: element[];
   te: element[];
   su: element[];
@@ -73,7 +73,7 @@ export const periodSchema: schema = {
         ["Unterricht", "Bereitschaft"].includes(v) ||
         `'${v}' is not a valid activity type`,
     },
-    sg: "string",
+    sg: { type: "string", optional: true },
     kl: [elementSchema],
     te: [elementSchema],
     su: [elementSchema],

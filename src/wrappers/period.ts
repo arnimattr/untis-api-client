@@ -37,7 +37,7 @@ export type period = {
    */
   activityType: "Unterricht" | "Bereitschaft";
 
-  studentGroup: string;
+  studentGroup?: string;
 
   elements: {
     classes: untisElement[];
