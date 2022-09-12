@@ -73,6 +73,7 @@ export const periodSchema: schema = {
         ["Unterricht", "Bereitschaft"].includes(v) ||
         `'${v}' is not a valid activity type`,
     },
+    sg: "string",
     kl: [elementSchema],
     te: [elementSchema],
     su: [elementSchema],
