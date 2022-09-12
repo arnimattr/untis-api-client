@@ -37,6 +37,8 @@ export type period = {
    */
   activityType: "Unterricht" | "Bereitschaft";
 
+  studentGroup: string;
+
   elements: {
     classes: untisElement[];
     teachers: untisElement[];
@@ -66,6 +68,7 @@ export const makePeriod = (p: untisPeriod): period => ({
   lessonText: p.lstext,
   substitutionText: p.substText,
   activityType: p.activityType,
+  studentGroup: p.sg,
   elements: {
     classes: p.kl,
     teachers: p.te,

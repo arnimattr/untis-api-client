@@ -23,6 +23,7 @@ export type period = {
   lstext: string;
   substText?: string;
   activityType: "Unterricht" | "Bereitschaft";
+  sg: string;
   kl: element[];
   te: element[];
   su: element[];
