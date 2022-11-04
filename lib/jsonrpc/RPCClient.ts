@@ -1,4 +1,3 @@
-import { findSchemaError, schema } from "@arnim279/schema-validator";
 import fetch from "node-fetch";
 import { parse as parseCookieHeader } from "set-cookie-parser";
 import { logger } from "./logger.js";
@@ -13,35 +12,19 @@ type rpcRequest = {
 type rpcResponse = {
   jsonrpc: "2.0";
   id: number | string;
-  result?: unknown;
-  error?: {
-    code: number;
-    message: string;
-  };
-};
-
-const rpcResponseSchema: schema = {
-  type: "object",
-  properties: {
-    jsonrpc: {
-      type: "string",
-      validator: (v) => v === "2.0" || 'must be "2.0"',
-    },
-    id: {
-      type: "union",
-      types: ["float", "string"],
-    },
-    result: { type: "unknown", optional: true },
-    error: {
-      type: "object",
-      properties: {
-        code: "int",
-        message: "string",
-      },
-      optional: true,
-    },
-  },
-};
+} & (
+  | {
+      result: unknown;
+      error: undefined;
+    }
+  | {
+      result: undefined;
+      error: {
+        code: number;
+        message: string;
+      };
+    }
+);
 
 export class RPCClient {
   readonly url: string;
@@ -52,15 +35,15 @@ export class RPCClient {
     this.cookies = {};
   }
 
-  async request(method: string, params: unknown = {}): Promise<unknown> {
+  async request<result>(method: string, params?: unknown): Promise<result> {
     let rpcRequest: rpcRequest = {
       jsonrpc: "2.0",
-      id: Date.now(),
+      id: [Date.now() % 1e6, Math.random() * 1e6].map(Math.floor).join(":"),
       method,
       params,
     };
 
-    let startTime = Date.now();
+    let t0 = Date.now();
     let response = await fetch(this.url, {
       method: "POST",
       body: JSON.stringify(rpcRequest),
@@ -71,19 +54,13 @@ export class RPCClient {
           .join(";"),
       },
     });
-    logger?.(method, Date.now() - startTime);
+    logger?.(method, Date.now() - t0);
 
     if (response.status !== 200) {
       throw new HTTPStatusError(200, response.statusText);
     }
 
     let resBody = await response.json();
-
-    let schemaErr = findSchemaError(resBody, rpcResponseSchema);
-
-    if (schemaErr !== undefined) {
-      throw schemaErr;
-    }
 
     let { result, error } = resBody as rpcResponse;
 
@@ -95,7 +72,7 @@ export class RPCClient {
       this.cookies[c.name] = c.value;
     }
 
-    return result;
+    return result as result;
   }
 }
 

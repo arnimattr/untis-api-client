@@ -2,10 +2,10 @@
 
 ## About
 
-A Client for accessing the [WebUntis](https://untis.com) API as documented [here](https://untis-sr.ch/wp-content/uploads/2019/11/2018-09-20-WebUntis_JSON_RPC_API.pdf).
-I know that there are other libraries for accessing the API like [SchoolUtils'](https://github.com/SchoolUtils/WebUntis),
-but I wanted to create a client that is written in TypeScript, properly structured and well documented. For more info, read the [implementation details](#implementation-details) and
-please let me know if you know anything about the WebUntis API that I don't!
+A client for accessing the [WebUntis](https://untis.com) API as documented [here](https://untis-sr.ch/wp-content/uploads/2019/11/2018-09-20-WebUntis_JSON_RPC_API.pdf).
+
+As described in the [implementation details](#implementation-details), this client only uses the public API.
+If you need to use the internal API, check out [this library](https://github.com/SchoolUtils/WebUntis) instead.
 
 ## Usage
 
@@ -18,65 +18,70 @@ $ npm install untis-api-client
 ### Example
 
 ```ts
-import {
-  LoginResult,
-  searchSchoolsByName,
-  setJSONRPCRequestLogger,
-  UntisClient,
-} from "untis-api-client";
+import { LoginStatus, searchSchoolsByName } from "untis-api-client";
 
-setJSONRPCRequestLogger((method, duration) => {
-  console.log(`completed WebUntis API request for ${method} in ${duration}ms`);
-});
-
-let [school] = await searchSchoolsByName("school name");
+let [school] = await searchSchoolsByName("my school name");
 if (!school) {
-  throw new Error("no school found");
+  throw new Error("school not found");
 }
 
-const c = new UntisClient(school.server, school.loginName);
+let client = school.getClient();
 
-let loginStatus = await c.login("username", "password");
-if (loginStatus !== LoginResult.Ok) {
-  // login failed
+let status = await client.login("username", "password");
+
+if (!status.Ok) {
+  throw new Error(`Login failed: ${LoginStatus[status.value]}`);
 }
 
-let currentSchoolyear = await c.getCurrentSchoolyear();
+let timetable = await client.getOwnTimetable("2022-01-01", "2022-12-31");
+client.logout();
 
-let timetable = await c.getOwnTimetableUntil(currentSchoolyear.endDate);
-
-// "An application should always logout as soon as possible
-// to free system resources on the server."
-c.logout();
-
-for (let period of timetable) {
-  console.log(period);
-}
+console.log(timetable);
 ```
 
-To learn more, look at the source code or use your IDE's autocompletion feature.
-I added doc comments to everything that is exported.
+[More examples](examples/)
 
 ## Implementation details
 
-This API client uses the `/WebUntis/jsonrpc.do` JSON-RPC API. Other 3rd party apps such as [BetterUntis](https://github.com/SapuSeven/BetterUntis)
-use the internal `/WebUntis/jsonrpc_intern.do` API, which is currently also used by the official mobile app.
+The client uses the "public" API. The official mobile WebUntis mobile apps and 3rd-party apps such as [BetterUntis](https://github.com/SapuSeven/BetterUntis) use the internal API,
+which allows you to log in anonymously or with an OTP.  
+Because I couldn't find any official documentation for it and the official API seemed more user-friendly, I didn't implement the internal API,
+so I don't know if either API has more or less features than the other one.  
+Also, not all documented methods are currently implemented in this client because I don't have the necessary permissions to access them, they are unavailable,
+or I don't need them in a backend environment. They are:
 
-> :warning: When I asked Untis about this, they said that **"the JSON API" will be deprecated by Summer 2023**, so unless updated, this client will
-> probably no longer work by then.
+- requesting departments (`getDepartments`)
+- requesting the time grid (`getTImegridUnits`)
+- requesting status data (`getStatusData`)
+- searching a person's id (`getPersonId`)
+- requesting substitutions (`getSubstitutions`)
+- getting exams or exam types (`getExams`, `getExamTypes`)
+- requesting a timetable with absences (`getTimetableWithAbsences`)
+- requesting class-reg events or remark categories (`getClassregEvents`, `getClassregCategories`, `getClassregCategoryGroups`)
 
-For now, the JSON-RPC methods that I didn't need or had no access to are not implemented.
-This includes `getDepartments`, `getStatusData`, `getPersonId`, `getSubstitutions`, and some more.
-If you implement them, please create a PR for your additions.
-
-## Copyright and contributing
+## Contributing
 
 I am unable to test a lot of the WebUntis API features myself because
-they are undocumented or I don't have access to them.
-Therefore, feel free to contribute to this API client!
-
+they are undocumented, or I don't have permission to use them.
+Therefore, feel free to contribute to this API client!  
 Here are a few things you should keep in mind:
 
 - add tests wherever possible
-- test your additions thourougly before committing
+- test your additions thoroughly before committing
 - format your code using `npm run format:apply`
+
+### Project structure
+
+If you contribute, please follow the code structure.
+
+```
+src/
+  webuntis/
+    requests/: method names and their parameter and return types.
+    resources/: resources returned by WebUntis
+  wrappers/: wrapper classes around resources
+```
+
+## Notice
+
+I am not affiliated with WebUntis in any way. Use at your own risk.

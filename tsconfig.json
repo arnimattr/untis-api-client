@@ -6,6 +6,7 @@
     "moduleResolution": "NodeNext",
 
     /* build settings */
+    "rootDir": ".",
     "outDir": "dist",
     "declaration": true,
 
@@ -18,7 +19,8 @@
 
     /* custom import paths */
     "paths": {
-      "@lib/*": ["./lib/*"]
+      "#lib/*": ["./lib/*"],
+      "#webuntis/*": ["./src/webuntis/*"]
     }
   }
 }

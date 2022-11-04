@@ -1,32 +1,28 @@
-import { findSchemaError } from "@arnim279/schema-validator";
-import { RPCClient, RPCError } from "@lib/jsonrpc/index.js";
-import * as data from "./data/index.js";
-import { ErrorCode, searchSchool } from "./requests/index.js";
+import { RPCClient, RPCError } from "#lib/jsonrpc/index.js";
+import { ErrorCode, searchSchool } from "./webuntis/requests/index.js";
+import { School } from "./wrappers/index.js";
 
 const rpcClient = new RPCClient("https://mobile.webuntis.com/ms/schoolquery2");
 
-async function findSchools(query: searchSchool.params): Promise<data.school[]> {
-  let response;
-  try {
-    response = await rpcClient.request(searchSchool.method, query);
-  } catch (e) {
-    if (e instanceof RPCError && e.code == ErrorCode.TooManyResults) return [];
-    throw e;
-  }
+async function findSchools(query: searchSchool.params): Promise<School[]> {
+  let { schools } = await rpcClient
+    .request<searchSchool.result>(searchSchool.method, query)
+    .catch((e) => {
+      if (e instanceof RPCError && e.code == ErrorCode.TooManyResults) {
+        return { schools: [] };
+      }
+      throw e;
+    });
 
-  let err = findSchemaError(response, searchSchool.resultSchema);
-  if (err !== undefined) throw err;
-
-  let { schools } = response as searchSchool.result;
-  return schools;
+  return schools.map(School.from);
 }
 
 /**
  * Searches all Schools by their name and returns a list of matching schools.
  * @param name the name to look for
- * @returns a list of matching schools. if there are too many results, the list is empty
+ * @returns a list of matching schools. If there are too many results, the list is empty
  */
-export function searchSchoolsByName(name: string): Promise<data.school[]> {
+export function searchSchoolsByName(name: string): Promise<School[]> {
   return findSchools([{ search: name }]);
 }
 
@@ -35,8 +31,22 @@ export function searchSchoolsByName(name: string): Promise<data.school[]> {
  * @param id the school's id
  * @returns the school or null if the id is invalid.
  */
-export async function getSchoolById(id: number): Promise<data.school | null> {
+export async function getSchoolById(id: number): Promise<School | null> {
   let schools = await findSchools([{ schoolid: id }]);
+
+  if (schools.length !== 1) return null;
+  return schools[0]!;
+}
+
+/**
+ * Finds a school by its login name.
+ * @param loginName the school's login name
+ * @returns the school or null if the login name is invalid.
+ */
+export async function getSchoolByLoginName(
+  loginName: string
+): Promise<School | null> {
+  let schools = await findSchools([{ schoolname: loginName }]);
 
   if (schools.length !== 1) return null;
   return schools[0]!;

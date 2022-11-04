@@ -1,63 +1,87 @@
-/**
- * Parses a Date from the WebUntis API into an ISO Date.
- * @param date Untis Date formatted as `yyyymmdd`
- * @returns ISO Date formatted as `yyyy-mm-dd`
- */
-export function parseDate(date: number | string): string {
-  date = date.toString();
-  let [year, month, day] = [date.slice(0, 4), date.slice(4, 6), date.slice(6)];
-  return `${year}-${month}-${day}`;
-}
+export const untisDateRegex = /^\d{8}$/;
+
+export const testUntisDate = (untisDate: string, dateName?: string) => {
+  if (!untisDateRegex.test(untisDate)) {
+    throw new Error(
+      `Expectected ${
+        dateName || "date"
+      } to be formatted as 'yyyymmdd', was '${untisDate}' instead`
+    );
+  }
+};
 
 /**
- * Parses a DateTime from the WebUntis API into an ISO DateTime.
- * @param date Untis Date formatted as `yyyymmdd`
- * @param time Untis Time formatted as `hmm` or `hhmm`
- * @returns ISO Date formatted as `yyyy-mm-ddThh:mm`
+ * Formats a date from the WebUntis API into `yyyy-mm-dd`.
+ * @param untisDate WebUntis date, formatted as `yyyymmdd`
+ * @returns the date, formatted as `yyyy-mm-dd`
  */
-export function parseDateTime(
-  date: number | string,
-  time: number | string
-): string {
-  [date, time] = [date.toString(), time.toString()];
+export function formatUntisDate(untisDate: number): string {
+  let date = String(untisDate);
+
+  testUntisDate(date);
+
+  let [year, month, day] = [date.slice(0, 4), date.slice(4, 6), date.slice(6)];
+  return [year, month, day].join("-");
+}
+
+export const untisTimeRegex = /^\d{3,4}$/;
+
+export const testUntisTime = (untisTime: string, timeName?: string) => {
+  if (!untisTimeRegex.test(untisTime)) {
+    throw new Error(
+      `Expectected ${
+        timeName || "date"
+      } to be formatted as 'hmm' or 'hhmm', was '${untisTime}' instead`
+    );
+  }
+};
+
+/**
+ * Formats a time from the WebUntis API into `hh:mm`.
+ * @param untisDate WebUntis time, formatted as `hmm` or `hhmm`
+ * @returns the time, formatted as `hh:mm`
+ */
+export function formatUntisTime(untisTime: number): string {
+  let time = String(untisTime);
+
+  testUntisTime(time);
 
   time = time.padStart(4, "0");
+
   let [hour, minute] = [time.slice(0, 2), time.slice(2)];
-
-  return `${parseDate(date)}T${hour}:${minute}`;
+  return [hour, minute].join(":");
 }
 
-/**
- * Converts a Date from the WebUntis API into a Date object.
- * @param date date formatted as `yyyymmdd`
- * @returns a Date object representing the date.
- */
-export function convertDate(date: string | number): Date {
-  return new Date(parseDate(date));
-}
+export const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-/**
- * Converts a DateTime from the WebUntis API into a Date object.
- * @param date Untis Date formatted as `yyyymmdd`
- * @param time Untis Time formatted as `hmm` or `hhmm`
- * @returns a Date object representing the DateTime in the UTC timezone
- */
-export function convertDateTime(
-  date: number | string,
-  time: number | string
-): Date {
-  return new Date(parseDateTime(date, time) + "Z");
-}
+export const testDate = (date: string, dateName?: string) => {
+  if (!dateRegex.test(date)) {
+    throw new Error(
+      `Expectected ${
+        dateName || "date"
+      } to be formatted as 'yyyy-mm-dd', was '${date}' instead`
+    );
+  }
+};
 
 /**
- * Converts a Date object to an Untis date.
- * @param date the Date object
- * @returns an Untis date formatted as `yyyymmdd`
+ * Converts a date into the WebUntis format `yyyymmdd`.
+ * @param date date formatted as `yyyy-mm-dd`
+ * @returns WebUntis date formatted as `yyyymmdd`
  */
-export function convertDateToUntis(date: Date): string {
-  return (
-    date.getFullYear() +
-    String(date.getMonth() + 1).padStart(2, "0") +
-    String(date.getDate()).padStart(2, "0")
-  );
+export function convertToUntisDate(date: string): number {
+  testDate(date);
+  return parseInt(date.replaceAll("-", ""));
 }
+
+export const timeRegex = /^\d{2}:\d{2}$/;
+
+export const testTime = (time: string, timeName?: string) => {
+  if (!timeRegex.test(time)) {
+    throw new Error(
+      `Expectected ${
+        timeName || "date"
+      } to be formatted as 'yyyy-mm-dd', was '${time}' instead`
+    );
+  }
+};

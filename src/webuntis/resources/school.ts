@@ -1,5 +1,3 @@
-import { schema } from "@arnim279/schema-validator";
-
 export type school = {
   /**
    * The WebUntis instance used by the school, e.g. `ikarus.webuntis.com`
@@ -36,19 +34,4 @@ export type school = {
   serverUrl: string;
 
   mobileServiceUrl: string | null;
-};
-
-export const schoolSchema: schema = {
-  type: "object",
-  properties: {
-    server: "string",
-    useMobileServiceUrlAndroid: "bool",
-    address: "string",
-    displayName: "string",
-    loginName: "string",
-    schoolId: "int",
-    useMobileServiceUrlIos: "bool",
-    serverUrl: "string",
-    mobileServiceUrl: { type: "union", types: ["string", "null"] },
-  },
 };

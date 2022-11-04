@@ -1,6 +1,6 @@
 {
   "name": "untis-api-client",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "WebUntis API client",
   "license": "GPL-3.0-or-later",
   "author": "arnim279",
@@ -23,11 +23,11 @@
     "./dist/"
   ],
   "dependencies": {
-    "@arnim279/schema-validator": "^1.0.3",
     "node-fetch": "^3.2.10",
     "set-cookie-parser": "^2.5.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.2",
     "@types/set-cookie-parser": "^2.4.2",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.1.0",
