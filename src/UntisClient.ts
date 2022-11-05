@@ -13,6 +13,7 @@ import {
   Student,
   Subject,
   Teacher,
+  Timetable,
 } from "./wrappers/index.js";
 
 /**
@@ -187,9 +188,9 @@ export class UntisClient {
    * Fetches the timetable for the current user in the specificed time range.
    * @param startDate start of the time range, formatted as `yyyy-mm-dd`
    * @param endDate end of the time range, formatted as `yyyy-mm-dd`
-   * @returns a list of all periods the user is part of, sorted by their start time
+   * @returns a timetable containing all periods the user is part of, sorted by their start time
    */
-  getOwnTimetable(startDate: string, endDate: string): Promise<Period[]> {
+  getOwnTimetable(startDate: string, endDate: string): Promise<Timetable> {
     let userData = this.getUserData();
     return this.getTimetableForElement(
       startDate,
@@ -206,14 +207,14 @@ export class UntisClient {
    * @param endDate end of the time range, formatted as `yyyy-mm-dd`
    * @param type the type of element
    * @param id the element's id
-   * @returns a list of all periods the user is part of, sorted by their start time
+   * @returns a timetable containing all periods the element has access to
    */
   getTimetableForElement(
     startDate: string,
     endDate: string,
     type: ElementType.Teacher | ElementType.Student,
     id: number
-  ): Promise<Period[]> {
+  ): Promise<Timetable> {
     let params: requests.timetable.params = {
       options: {
         element: {
@@ -238,15 +239,7 @@ export class UntisClient {
     return this.request<requests.timetable.result>(
       requests.timetable.method,
       params
-    ).then((t) =>
-      t
-        .map(Period.from)
-        .sort(
-          (a, b) =>
-            a.getStartDateTimeAsObject().valueOf() -
-            b.getStartDateTimeAsObject().valueOf()
-        )
-    );
+    ).then((t) => Timetable.from(t.map(Period.from)));
   }
 
   /**

@@ -24,14 +24,14 @@ export function formatUntisDate(untisDate: number): string {
   return [year, month, day].join("-");
 }
 
-export const untisTimeRegex = /^\d{3,4}$/;
+export const untisTimeRegex = /^\d{1,4}$/;
 
 export const testUntisTime = (untisTime: string, timeName?: string) => {
   if (!untisTimeRegex.test(untisTime)) {
     throw new Error(
       `Expectected ${
         timeName || "date"
-      } to be formatted as 'hmm' or 'hhmm', was '${untisTime}' instead`
+      } to be formatted as 'm', 'mm', 'hmm', or 'hhmm', was '${untisTime}' instead`
     );
   }
 };
