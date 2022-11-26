@@ -214,7 +214,7 @@ export class Period {
    */
   deviatesFromSchedule = (): boolean =>
     this.substitutionText !== null ||
-    this.lessonCode !== "regular" ||
+    this.lessonCode === "cancelled" ||
     Object.values(this.elements)
       .flat()
       .some((element) => element.isSubstituted());
@@ -285,6 +285,9 @@ export class Period {
  * Wrapper around an element included in a {@link Period}.
  */
 export class PeriodElement {
+  originalId?: number = undefined;
+  originalName?: string = undefined;
+
   constructor(
     /**
      * Id of the element.
