@@ -1,7 +1,7 @@
-import { RPCClient, RPCError } from "#lib/jsonrpc/index.js";
-import { convertToUntisDate } from "#lib/timeformat/index.js";
-import * as requests from "#webuntis/requests/index.js";
-import { ElementType } from "#webuntis/resources/ElementType.js";
+import { RPCClient, RPCError } from "lib/jsonrpc/mod.ts";
+import { format as formatDate } from "std/datetime/format.ts";
+import * as requests from "webuntis/requests";
+import { ElementType } from "webuntis/resources";
 import {
   Class,
   Holiday,
@@ -14,7 +14,7 @@ import {
   Subject,
   Teacher,
   Timetable,
-} from "./wrappers/index.js";
+} from "./wrappers/mod.ts";
 
 /**
  * Client for making JSON-RPC requests to the WebUntis API.
@@ -186,11 +186,14 @@ export class UntisClient {
 
   /**
    * Fetches the timetable for the current user in the specificed time range.
-   * @param startDate start of the time range, formatted as `yyyy-mm-dd`
-   * @param endDate end of the time range, formatted as `yyyy-mm-dd`
+   * @param startDate start of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @param endDate end of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
    * @returns a timetable containing all periods the user is part of, sorted by their start time
    */
-  getOwnTimetable(startDate: string, endDate: string): Promise<Timetable> {
+  getOwnTimetable(
+    startDate: string | Date,
+    endDate: string | Date
+  ): Promise<Timetable> {
     let userData = this.getUserData();
     return this.getTimetableForElement(
       startDate,
@@ -203,15 +206,15 @@ export class UntisClient {
   /**
    * Fetches the timetable for the given element in the specificed time range.
    * May throw a JSON-RPC error if the current user doesn't have the necessary permissions.
-   * @param startDate start of the time range, formatted as `yyyy-mm-dd`
-   * @param endDate end of the time range, formatted as `yyyy-mm-dd`
+   * @param startDate start of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @param endDate end of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
    * @param type the type of element
    * @param id the element's id
    * @returns a timetable containing all periods the element has access to
    */
   getTimetableForElement(
-    startDate: string,
-    endDate: string,
+    startDate: string | Date,
+    endDate: string | Date,
     type: ElementType.Teacher | ElementType.Student,
     id: number
   ): Promise<Timetable> {
@@ -221,8 +224,8 @@ export class UntisClient {
           id,
           type,
         },
-        startDate: convertToUntisDate(startDate),
-        endDate: convertToUntisDate(endDate),
+        startDate: formatDate(new Date(startDate), "yyyyMMdd"),
+        endDate: formatDate(new Date(endDate), "yyyyMMdd"),
         showBooking: true,
         showInfo: true,
         showSubstText: true,

@@ -1,4 +1,4 @@
-import { Period } from "./Period.js";
+import { Period } from "./Period.ts";
 
 /**
  * Utility class for managing periods.
@@ -6,13 +6,7 @@ import { Period } from "./Period.js";
  * if you want to get the weekly lesson schedules instead of every occurance or combine lessons into double lessons, you can use this class.
  */
 export class Timetable implements Iterable<Period> {
-  constructor(private periods: Period[]) {
-    this.periods = periods.sort(
-      (a, b) =>
-        a.getStartDateTimeAsObject().valueOf() -
-        b.getStartDateTimeAsObject().valueOf()
-    );
-  }
+  constructor(private readonly periods: readonly Period[]) {}
 
   /**
    * Creates a new Timetale from an array of periods. Equal to {@link Timetable.constructor()}.
@@ -54,7 +48,11 @@ export class Timetable implements Iterable<Period> {
    * @returns a new timetable containing only the periods that matched met the condition
    */
   filterPeriods = (
-    callbackfn: (period: Period, index: number, array: Period[]) => boolean
+    callbackfn: (
+      period: Period,
+      index: number,
+      array: readonly Period[]
+    ) => boolean
   ) => Timetable.from(this.periods.filter(callbackfn));
 
   /**
@@ -63,7 +61,7 @@ export class Timetable implements Iterable<Period> {
    * @returns an array containing the results
    */
   mapPeriods = <T>(
-    callbackfn: (period: Period, index: number, array: Period[]) => T
+    callbackfn: (period: Period, index: number, array: readonly Period[]) => T
   ) => this.periods.map(callbackfn);
 
   /**
@@ -71,46 +69,50 @@ export class Timetable implements Iterable<Period> {
    * @param callbackfn function that is applied to every period
    */
   forEach = (
-    callbackfn: (period: Period, index: number, array: Period[]) => void
+    callbackfn: (
+      period: Period,
+      index: number,
+      array: readonly Period[]
+    ) => void
   ) => this.periods.forEach(callbackfn);
 
-  /**
-   * Combines sequential periods into longer periods.
-   * Periods are sequential if {@link Period.canBeCombinedWith()} is true
-   * @returns a new timetable
-   */
-  combinePeriods = () => {
-    let periods = [...this.periods];
+  // /**
+  //  * Combines sequential periods into longer periods.
+  //  * Periods are sequential if {@link Period.canBeCombinedWith()} is true
+  //  * @returns a new timetable
+  //  */
+  // combinePeriods = () => {
+  //   let periods = [...this.periods];
 
-    // periods are sorted by their start datetime, so only a for loop is needed
-    for (let i = 0; i < periods.length - 1; ) {
-      let p1 = periods[i]!;
-      let p2 = periods[i + 1]!;
-      if (p1.canBeCombinedWith(p2)) {
-        periods.splice(i, 2, p1.combineWith(p2));
-      } else i++; // maybe more than 2 periods should be combined -> stay on the same index as long as possible
-    }
-    return Timetable.from(periods);
-  };
+  //   // periods are sorted by their start datetime, so only a for loop is needed
+  //   for (let i = 0; i < periods.length - 1; ) {
+  //     let p1 = periods[i]!;
+  //     let p2 = periods[i + 1]!;
+  //     if (p1.canBeCombinedWith(p2)) {
+  //       periods.splice(i, 2, p1.combineWith(p2));
+  //     } else i++; // maybe more than 2 periods should be combined -> stay on the same index as long as possible
+  //   }
+  //   return Timetable.from(periods);
+  // };
 
-  /**
-   * Groups all periods into their schedule.
-   * Schedules are determined by a period's lessonNumber, weekday, start-, and enddate
-   * @returns a 2-dimensional array of periods. All periods in an array belong to the same schedule
-   */
-  groupBySchedule = () => {
-    let schedules = new Map<string, Period[]>();
+  // /**
+  //  * Groups all periods into their schedule.
+  //  * Schedules are determined by a period's lessonNumber, weekday, start-, and enddate
+  //  * @returns a 2-dimensional array of periods. All periods in an array belong to the same schedule
+  //  */
+  // groupBySchedule = () => {
+  //   let schedules = new Map<string, Period[]>();
 
-    for (let p of this.periods) {
-      let key = [
-        p.lessonNumber,
-        p.getDateAsObject().getDay(),
-        p.getStartTimeAsString(),
-        p.getEndTimeAsString(),
-      ].join(":");
-      schedules.get(key)?.push(p) || schedules.set(key, [p]);
-    }
+  //   for (let p of this.periods) {
+  //     let key = [
+  //       p.lessonNumber,
+  //       p.getDateAsObject().getDay(),
+  //       p.getStartTimeAsString(),
+  //       p.getEndTimeAsString(),
+  //     ].join(":");
+  //     schedules.get(key)?.push(p) || schedules.set(key, [p]);
+  //   }
 
-    return Array.from(schedules.values());
-  };
+  //   return Array.from(schedules.values());
+  // };
 }

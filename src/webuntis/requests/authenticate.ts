@@ -1,4 +1,4 @@
-import { ElementType } from "../resources/index.js";
+import { ElementType } from "webuntis/resources";
 
 export const method = "authenticate";
 

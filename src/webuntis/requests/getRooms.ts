@@ -1,4 +1,4 @@
-import { room } from "../resources/index.js";
+import { room } from "webuntis/resources";
 
 export const method = "getRooms";
 

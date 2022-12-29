@@ -1,5 +1,5 @@
-import { formatUntisDate } from "#lib/timeformat/index.js";
-import { schoolyear } from "#webuntis/resources/index.js";
+import { parse as parseDate } from "std/datetime/parse.ts";
+import { schoolyear } from "webuntis/resources";
 
 /**
  * Wrapper around the schoolyear objects returned by the WebUntis API.
@@ -17,39 +17,15 @@ export class Schoolyear {
     readonly name: string,
 
     /**
-     * Start date of the schoolyear, formatted as `yyyy-mm-dd`.
+     * Start date of the schoolyear.
      */
-    private startDate: string,
+    readonly startDate: Date,
 
     /**
-     * End date of the schoolyear, formatted as `yyyy-mm-dd`.
+     * End date of the schoolyear.
      */
-    private endDate: string
+    readonly endDate: Date
   ) {}
-
-  /**
-   * Returns the schoolyear's start date as a string, formatted as `yyyy-mm-dd`.
-   * @returns the start date
-   */
-  getStartDateAsString = () => this.startDate;
-
-  /**
-   * Parses the schoolyear's start date into a JS {@link Date} object and returns it.
-   * @returns the date object
-   */
-  getStartDateAsObject = () => new Date(this.startDate);
-
-  /**
-   * Returns the schoolyear's end date as a string, formatted as `yyyy-mm-dd`.
-   * @returns the end date
-   */
-  getEndDateAsString = () => this.endDate;
-
-  /**
-   * Parses the schoolyear's end date into a JS {@link Date} object and returns it.
-   * @returns the date object
-   */
-  getEndDateAsObject = () => new Date(this.endDate);
 
   /**
    * Creates a new instance of this class.
@@ -60,8 +36,8 @@ export class Schoolyear {
     return new Schoolyear(
       schoolyear.id,
       schoolyear.name,
-      formatUntisDate(schoolyear.startDate),
-      formatUntisDate(schoolyear.endDate)
+      parseDate(String(schoolyear.startDate), "yyyyMMdd"),
+      parseDate(String(schoolyear.endDate), "yyyyMMdd")
     );
   }
 }

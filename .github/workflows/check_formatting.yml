@@ -1,0 +1,19 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  check_formatting:
+    name: Check formatting using Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Check formatting
+        run: deno fmt --check

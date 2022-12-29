@@ -1,0 +1,10 @@
+export type { ElementType } from "./ElementType.ts";
+export type { holiday } from "./holiday.ts";
+export type { element, period } from "./period.ts";
+export type { room } from "./room.ts";
+export type { school } from "./school.ts";
+export type { schoolClass } from "./schoolClass.ts";
+export type { schoolyear } from "./schoolyear.ts";
+export type { student } from "./student.ts";
+export type { subject } from "./subject.ts";
+export type { teacher } from "./teacher.ts";

@@ -1,6 +1,5 @@
-import fetch from "node-fetch";
-import { parse as parseCookieHeader } from "set-cookie-parser";
-import { logger } from "./logger.js";
+import { getSetCookies } from "std/http/cookie.ts";
+import { logger } from "./logger.ts";
 
 type rpcRequest = {
   jsonrpc: "2.0";
@@ -68,8 +67,8 @@ export class RPCClient {
       throw new RPCError(error.code, error.message);
     }
 
-    for (let c of parseCookieHeader(response.headers.get("Set-Cookie") || "")) {
-      this.cookies[c.name] = c.value;
+    for (let { name, value } of getSetCookies(response.headers)) {
+      this.cookies[name] = value;
     }
 
     return result as result;

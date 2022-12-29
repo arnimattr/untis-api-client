@@ -1,5 +1,5 @@
-import { school } from "#webuntis/resources/index.js";
-import { UntisClient } from "../UntisClient.js";
+import { school } from "webuntis/resources";
+import { UntisClient } from "../UntisClient.ts";
 
 /**
  * Wrapper around the school objects returned by the WebUntis API.

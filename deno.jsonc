@@ -1,0 +1,6 @@
+{
+  "importMap": "./import_map.json",
+  "lint": {
+    "rules": { "exclude": ["prefer-const"], "include": ["camelcase"] }
+  }
+}

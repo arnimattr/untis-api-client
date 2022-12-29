@@ -1,4 +1,4 @@
-import { schoolClass } from "../resources/index.js";
+import { schoolClass } from "webuntis/resources";
 
 export const method = "getKlassen";
 

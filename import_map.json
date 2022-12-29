@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "webuntis/requests": "./src/webuntis/requests/mod.ts",
+    "webuntis/resources": "./src/webuntis/resources/mod.ts",
+    "lib/": "./lib/",
+    "std/": "https://deno.land/std@0.170.0/"
+  }
+}

@@ -1,4 +1,4 @@
-import { school } from "../resources/school.js";
+import { school } from "webuntis/resources";
 
 export const method = "searchSchool";
 

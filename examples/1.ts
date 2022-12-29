@@ -1,4 +1,4 @@
-import { LoginStatus, searchSchoolsByName } from "untis-api-client";
+import { LoginStatus, searchSchoolsByName } from "../mod.ts";
 
 let [school] = await searchSchoolsByName("my school name");
 
