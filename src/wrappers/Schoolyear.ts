@@ -10,21 +10,18 @@ export class Schoolyear {
      * The schoolyear's id.
      */
     readonly id: number,
-
     /**
      * The schoolyear's name.
      */
     readonly name: string,
-
     /**
      * Start date of the schoolyear.
      */
     readonly startDate: Date,
-
     /**
      * End date of the schoolyear.
      */
-    readonly endDate: Date
+    readonly endDate: Date,
   ) {}
 
   /**
@@ -37,7 +34,7 @@ export class Schoolyear {
       schoolyear.id,
       schoolyear.name,
       parseDate(String(schoolyear.startDate), "yyyyMMdd"),
-      parseDate(String(schoolyear.endDate), "yyyyMMdd")
+      parseDate(String(schoolyear.endDate), "yyyyMMdd"),
     );
   }
 }

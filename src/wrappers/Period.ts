@@ -21,42 +21,34 @@ export class Period {
      * The lesson's id.
      */
     readonly id: number,
-
     /**
      * Type of the lesson.
      */
     readonly lessonType: lessonType,
-
     /**
      * Code that contains whether the lesson is regular, irregular or cancelled.
      */
     readonly lessonCode: lessonCode,
-
     /**
      * Lesson number. Unique per student group.
      */
     readonly lessonNumber: number,
-
     /**
      * Lesson text.
      */
     readonly lessonText: string,
-
     /**
      * Describes a substitution if present.
      */
     readonly substitutionText: string | null,
-
     /**
      * Activity type of the lesson.
      */
     readonly activityType: activityType,
-
     /**
      * Student group for this lesson.
      */
     readonly studentGroup: string | null,
-
     /**
      * Elements included in the lesson.
      */
@@ -66,16 +58,14 @@ export class Period {
       readonly subjects: readonly PeriodElement[];
       readonly rooms: readonly PeriodElement[];
     },
-
     /**
      * Start of the lesson.
      */
     readonly start: Date,
-
     /**
      * End of the lesson.
      */
-    readonly end: Date
+    readonly end: Date,
   ) {}
 
   /**
@@ -113,12 +103,12 @@ export class Period {
       },
       parseDate(
         String(period.date) + " " + String(period.startTime).padStart(4, "0"),
-        "yyyyMMdd hhmm"
+        "yyyyMMdd hhmm",
       ),
       parseDate(
         String(period.date) + " " + String(period.endTime).padStart(4, "0"),
-        "yyyyMMdd hhmm"
-      )
+        "yyyyMMdd hhmm",
+      ),
     );
   }
 
@@ -229,7 +219,7 @@ export class PeriodElement {
     /**
      * Longer name of the element.
      */
-    readonly longName: string
+    readonly longName: string,
   ) {}
 
   /**
@@ -240,12 +230,12 @@ export class PeriodElement {
   static from(element: element) {
     return element.orgid && element.orgname
       ? new SubstitutedPeriodElement(
-          element.id,
-          element.name,
-          element.longname,
-          element.orgid,
-          element.orgname
-        )
+        element.id,
+        element.name,
+        element.longname,
+        element.orgid,
+        element.orgname,
+      )
       : new PeriodElement(element.id, element.name, element.longname);
   }
 
@@ -265,7 +255,7 @@ export class SubstitutedPeriodElement extends PeriodElement {
     name: string,
     longName: string,
     readonly originalId: number,
-    readonly originalName: string
+    readonly originalName: string,
   ) {
     super(id, name, longName);
   }

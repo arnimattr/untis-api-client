@@ -8,7 +8,7 @@ export class LoginResult {
      * The value of the {@link LoginStatus}.
      * Can still be used to get the original status.
      */
-    readonly value: LoginStatus
+    readonly value: LoginStatus,
   ) {}
 
   /**

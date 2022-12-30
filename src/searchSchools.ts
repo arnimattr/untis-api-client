@@ -44,7 +44,7 @@ export async function getSchoolById(id: number): Promise<School | null> {
  * @returns the school or null if the login name is invalid.
  */
 export async function getSchoolByLoginName(
-  loginName: string
+  loginName: string,
 ): Promise<School | null> {
   let schools = await findSchools([{ schoolname: loginName }]);
 

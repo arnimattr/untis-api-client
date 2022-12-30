@@ -67,7 +67,7 @@ export class UntisClient {
 
       let result = await this.request<requests.authenticate.result>(
         requests.authenticate.method,
-        params
+        params,
       );
       this.loginName = username;
       this.loginData = result;
@@ -104,7 +104,7 @@ export class UntisClient {
    */
   getTeachers(): Promise<Teacher[]> {
     return this.request<requests.getTeachers.result>(
-      requests.getTeachers.method
+      requests.getTeachers.method,
     );
   }
 
@@ -122,7 +122,7 @@ export class UntisClient {
    */
   getSubjects(): Promise<Subject[]> {
     return this.request<requests.getSubjects.result>(
-      requests.getSubjects.method
+      requests.getSubjects.method,
     );
   }
 
@@ -140,7 +140,7 @@ export class UntisClient {
    */
   getStudents(): Promise<Student[]> {
     return this.request<requests.getStudents.result>(
-      requests.getStudents.method
+      requests.getStudents.method,
     );
   }
 
@@ -150,7 +150,7 @@ export class UntisClient {
    */
   getSchoolyears(): Promise<Schoolyear[]> {
     return this.request<requests.getSchoolyears.result>(
-      requests.getSchoolyears.method
+      requests.getSchoolyears.method,
     ).then((s) => s.map(Schoolyear.from));
   }
 
@@ -160,7 +160,7 @@ export class UntisClient {
    */
   getCurrentSchoolyear(): Promise<Schoolyear> {
     return this.request<requests.getCurrentSchoolyear.result>(
-      requests.getCurrentSchoolyear.method
+      requests.getCurrentSchoolyear.method,
     ).then(Schoolyear.from);
   }
 
@@ -170,7 +170,7 @@ export class UntisClient {
    */
   getHolidays(): Promise<Holiday[]> {
     return this.request<requests.getHolidays.result>(
-      requests.getHolidays.method
+      requests.getHolidays.method,
     ).then((h) => h.map(Holiday.from));
   }
 
@@ -180,7 +180,7 @@ export class UntisClient {
    */
   getLatestImportTime(): Promise<Date> {
     return this.request<requests.latestImportTime.result>(
-      requests.latestImportTime.method
+      requests.latestImportTime.method,
     ).then((t) => new Date(t));
   }
 
@@ -192,14 +192,14 @@ export class UntisClient {
    */
   getOwnTimetable(
     startDate: string | Date,
-    endDate: string | Date
+    endDate: string | Date,
   ): Promise<Timetable> {
     let userData = this.getUserData();
     return this.getTimetableForElement(
       startDate,
       endDate,
       userData.type,
-      userData.id
+      userData.id,
     );
   }
 
@@ -216,7 +216,7 @@ export class UntisClient {
     startDate: string | Date,
     endDate: string | Date,
     type: ElementType.Teacher | ElementType.Student,
-    id: number
+    id: number,
   ): Promise<Timetable> {
     let params: requests.timetable.params = {
       options: {
@@ -241,7 +241,7 @@ export class UntisClient {
 
     return this.request<requests.timetable.result>(
       requests.timetable.method,
-      params
+      params,
     ).then((t) => Timetable.from(t.map(Period.from)));
   }
 

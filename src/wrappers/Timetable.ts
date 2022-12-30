@@ -51,8 +51,8 @@ export class Timetable implements Iterable<Period> {
     callbackfn: (
       period: Period,
       index: number,
-      array: readonly Period[]
-    ) => boolean
+      array: readonly Period[],
+    ) => boolean,
   ) => Timetable.from(this.periods.filter(callbackfn));
 
   /**
@@ -61,7 +61,7 @@ export class Timetable implements Iterable<Period> {
    * @returns an array containing the results
    */
   mapPeriods = <T>(
-    callbackfn: (period: Period, index: number, array: readonly Period[]) => T
+    callbackfn: (period: Period, index: number, array: readonly Period[]) => T,
   ) => this.periods.map(callbackfn);
 
   /**
@@ -72,8 +72,8 @@ export class Timetable implements Iterable<Period> {
     callbackfn: (
       period: Period,
       index: number,
-      array: readonly Period[]
-    ) => void
+      array: readonly Period[],
+    ) => void,
   ) => this.periods.forEach(callbackfn);
 
   // /**

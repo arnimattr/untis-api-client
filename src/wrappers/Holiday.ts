@@ -6,30 +6,16 @@ import { holiday } from "webuntis/resources";
  */
 export class Holiday {
   constructor(
-    /**
-     * The holiday's id
-     */
+    /** The holiday's id */
     readonly id: number,
-
-    /**
-     * The holiday's short name.
-     */
+    /** The holiday's short name. */
     readonly name: string,
-
-    /**
-     * The holiday's full name.
-     */
+    /** The holiday's full name. */
     readonly longName: string,
-
-    /**
-     * Start date of the holiday.
-     */
+    /** Start date of the holiday. */
     readonly startDate: Date,
-
-    /**
-     * End date of the holiday.
-     */
-    readonly endDate: Date
+    /** End date of the holiday. */
+    readonly endDate: Date,
   ) {}
 
   /**
@@ -43,7 +29,7 @@ export class Holiday {
       holiday.name,
       holiday.longName,
       parseDate(holiday.startDate.toString(), "yyyyMMdd"),
-      parseDate(holiday.endDate.toString(), "yyyyMMdd")
+      parseDate(holiday.endDate.toString(), "yyyyMMdd"),
     );
   }
 }

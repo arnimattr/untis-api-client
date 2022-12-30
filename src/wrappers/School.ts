@@ -10,37 +10,29 @@ export class School {
      * The WebUntis server that is used by this school. Is `xxx.webuntis.com`, i.e. `ikarus.webuntis.com`.
      */
     readonly server: string,
-
     readonly useMobileServiceUrlAndroid: boolean,
-
     /**
      * The school's address.
      */
     readonly address: string,
-
     /**
      * The school's full name.
      */
     readonly displayName: string,
-
     /**
      * Shortened, unique name for this school.
      */
     readonly loginName: string,
-
     /**
      * The school's id.
      */
     readonly id: number,
-
     readonly useMobileServiceUrlIos: boolean,
-
     /**
      * URL to the WebUntis server. Is `https://{server}/WebUntis/?school={loginName}`.
      */
     readonly serverUrl: string,
-
-    readonly mobileServiceUrl: string | null
+    readonly mobileServiceUrl: string | null,
   ) {}
 
   /**
@@ -64,7 +56,7 @@ export class School {
       school.schoolId,
       school.useMobileServiceUrlIos,
       school.serverUrl,
-      school.mobileServiceUrl
+      school.mobileServiceUrl,
     );
   }
 }
