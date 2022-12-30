@@ -1,6 +1,11 @@
 {
   "importMap": "./import_map.json",
+
   "lint": {
     "rules": { "exclude": ["prefer-const"], "include": ["camelcase"] }
+  },
+
+  "tasks": {
+    "build_npm": "deno run -A scripts/build_npm.ts"
   }
 }

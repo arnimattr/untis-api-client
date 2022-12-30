@@ -1,15 +1,14 @@
-name: Run Tests
+name: Check formatting
 
 on: [push, pull_request]
 
 jobs:
   check_formatting:
-    name: Check formatting using Prettier
+    name: Check code formatting
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - uses: denoland/setup-deno@v1
         with:
