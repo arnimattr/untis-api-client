@@ -1,4 +1,4 @@
-import { schoolyear } from "../resources/index.js";
+import { schoolyear } from "webuntis/resources";
 
 export const method = "getSchoolyears";
 

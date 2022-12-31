@@ -1,63 +1,65 @@
-import { RPCClient, RPCError } from "#lib/jsonrpc/index.js";
-import { convertToUntisDate } from "#lib/timeformat/index.js";
-import * as requests from "#webuntis/requests/index.js";
-import { ElementType } from "#webuntis/resources/ElementType.js";
+import { RpcClient, RpcError } from "lib/jsonrpc/mod.ts";
+import * as requests from "webuntis/requests";
+import { ElementType } from "webuntis/resources";
+import { formatUntisDate } from "../lib/datetime/untis.ts";
 import {
   Class,
   Holiday,
-  LoginResult,
+  Lesson,
   LoginStatus,
-  Period,
   Room,
   Schoolyear,
   Student,
   Subject,
   Teacher,
   Timetable,
-} from "./wrappers/index.js";
+} from "./wrappers/mod.ts";
 
 /**
- * Client for making JSON-RPC requests to the WebUntis API.
- * Designed by following [this documentation](https://untis-sr.ch/wp-content/uploads/2019/11/2018-09-20-WebUntis_JSON_RPC_API.pdf)
+ * Client for making JSON-RPC requests to the public WebUntis API.
+ * Designed by following [this documentation](https://untis-sr.ch/wp-content/uploads/2019/11/2018-09-20-WebUntis_JSON_RPC_API.pdf).
  */
 export class UntisClient {
-  private rpcClient: RPCClient;
+  private rpcClient: RpcClient;
   private loginName: string | null;
   private loginData: requests.authenticate.result | null;
 
   /**
    * Creates a new client.
    * @param untisInstance the school's WebUntis API instance, e.g. `ikarus.webuntis.com`
-   * @param schoolName the school's loginName
+   * @param schoolName the school's loginName.
    */
   constructor(untisInstance: string, schoolName: string) {
     let url = new URL(`https://${untisInstance}/WebUntis/jsonrpc.do`);
     url.searchParams.set("school", schoolName); // technically only needed for the authentication request
 
-    this.rpcClient = new RPCClient(url.toString());
+    this.rpcClient = new RpcClient(url.toString());
     this.loginName = null;
     this.loginData = null;
   }
 
   /**
    * Makes a request to the WebUntis API.
-   * @param method the JSON-RPC method to call
-   * @param [params={}] JSON-RPC parameters, defaults to {}
-   * @returns the result, type-casted into the provided type
+   * @param method the JSON-RPC method to call.
+   * @param [params={}] JSON-RPC parameters.
+   * @returns the result, type-casted to the provided type.
    */
-  private async request<result>(method: string, params: unknown = {}) {
-    let response = await this.rpcClient.request<result>(method, params);
+  private async request<Result>(
+    method: string,
+    params: unknown = {},
+  ): Promise<Result> {
+    let response = await this.rpcClient.request<Result>(method, params);
     return response;
   }
 
   /**
    * Logs in as a user. Needs to be called before accessing all other methods.
-   * You should log out ({@link UntisClient.logout()}) as soon as possible to free resources on WebUntis' servers.
-   * @param username username to log in with
-   * @param password user password
-   * @returns a {@link LoginResult} containing whether the login was successful
+   * You should log out ({@link logout()}) as soon as possible to free resources on WebUntis' servers.
+   * @param username username to log in with.
+   * @param password user password.
+   * @returns a {@link LoginStatus} describing whether the login was successful.
    */
-  async login(username: string, password: string): Promise<LoginResult> {
+  async login(username: string, password: string): Promise<LoginStatus> {
     try {
       let params: requests.authenticate.params = {
         user: username,
@@ -67,153 +69,131 @@ export class UntisClient {
 
       let result = await this.request<requests.authenticate.result>(
         requests.authenticate.method,
-        params
+        params,
       );
       this.loginName = username;
       this.loginData = result;
     } catch (e) {
-      if (e instanceof RPCError) {
+      if (e instanceof RpcError) {
         switch (e.code) {
           case requests.ErrorCode.InvalidCredentials: {
-            return new LoginResult(LoginStatus.InvalidCredentials);
+            return LoginStatus.InvalidCredentials;
           }
           case requests.ErrorCode.UserBlocked: {
-            return new LoginResult(LoginStatus.UserBlocked);
+            return LoginStatus.UserBlocked;
           }
         }
       }
       throw e;
     }
 
-    return new LoginResult(LoginStatus.Ok);
+    return LoginStatus.Ok;
   }
 
-  /**
-   * Logs out the current user and resets the Client.
-   */
-  async logout() {
+  /** Logs out the current user and resets the client. */
+  async logout(): Promise<void> {
     await this.rpcClient.request(requests.logout.method);
     this.loginName = null;
     this.loginData = null;
-    this.rpcClient = new RPCClient(this.rpcClient.url);
+    this.rpcClient = new RpcClient(this.rpcClient.url);
   }
 
-  /**
-   * Fetches all teachers.
-   * @returns a list of teachers
-   */
+  /** Fetches all teachers. */
   getTeachers(): Promise<Teacher[]> {
     return this.request<requests.getTeachers.result>(
-      requests.getTeachers.method
+      requests.getTeachers.method,
     );
   }
 
-  /**
-   * Fetches all rooms.
-   * @returns a list of rooms
-   */
+  /** Fetches all rooms. */
   getRooms(): Promise<Room[]> {
     return this.request<requests.getRooms.result>(requests.getRooms.method);
   }
 
-  /**
-   * Fetches all subjects.
-   * @returns a list of subjects
-   */
+  /** Fetches all subjects. */
   getSubjects(): Promise<Subject[]> {
     return this.request<requests.getSubjects.result>(
-      requests.getSubjects.method
+      requests.getSubjects.method,
     );
   }
 
-  /**
-   * Fetches all classes.
-   * @returns a list of classes
-   */
+  /** Fetches all classes. */
   getClasses(): Promise<Class[]> {
     return this.request<requests.getClasses.result>(requests.getClasses.method);
   }
 
-  /**
-   * Fetches all students.
-   * @returns a list of students
-   */
+  /** Fetches all students. */
   getStudents(): Promise<Student[]> {
     return this.request<requests.getStudents.result>(
-      requests.getStudents.method
+      requests.getStudents.method,
     );
   }
 
-  /**
-   * Fetches all schoolyears.
-   * @returns a list of schoolyears.
-   */
-  getSchoolyears(): Promise<Schoolyear[]> {
-    return this.request<requests.getSchoolyears.result>(
-      requests.getSchoolyears.method
-    ).then((s) => s.map(Schoolyear.from));
+  /** Fetches all schoolyears. */
+  async getSchoolyears(): Promise<Schoolyear[]> {
+    let schoolyears = await this.request<requests.getSchoolyears.result>(
+      requests.getSchoolyears.method,
+    );
+    return schoolyears.map(Schoolyear.from);
   }
 
-  /**
-   * Fetches the current schoolyear.
-   * @returns the current schoolyear
-   */
-  getCurrentSchoolyear(): Promise<Schoolyear> {
-    return this.request<requests.getCurrentSchoolyear.result>(
-      requests.getCurrentSchoolyear.method
-    ).then(Schoolyear.from);
+  /** Fetches the current schoolyear. */
+  async getCurrentSchoolyear(): Promise<Schoolyear> {
+    let schoolyear = await this.request<requests.getCurrentSchoolyear.result>(
+      requests.getCurrentSchoolyear.method,
+    );
+    return Schoolyear.from(schoolyear);
   }
 
-  /**
-   * Fetches holidays in the current schoolyear.
-   * @returns a list of holidays
-   */
-  getHolidays(): Promise<Holiday[]> {
-    return this.request<requests.getHolidays.result>(
-      requests.getHolidays.method
-    ).then((h) => h.map(Holiday.from));
+  /** Fetches the holidays in the current schoolyear. */
+  async getHolidays(): Promise<Holiday[]> {
+    let holidays = await this.request<requests.getHolidays.result>(
+      requests.getHolidays.method,
+    );
+    return holidays.map(Holiday.from);
   }
 
-  /**
-   * Fetches last time the timetable was updated for this school.
-   * @returns a DateTime
-   */
-  getLatestImportTime(): Promise<Date> {
-    return this.request<requests.latestImportTime.result>(
-      requests.latestImportTime.method
-    ).then((t) => new Date(t));
+  /** Fetches the last time the timetable was updated for this school. */
+  async getLatestImportTime(): Promise<Date> {
+    let timestamp = await this.request<requests.latestImportTime.result>(
+      requests.latestImportTime.method,
+    );
+    return new Date(timestamp);
   }
 
   /**
    * Fetches the timetable for the current user in the specificed time range.
-   * @param startDate start of the time range, formatted as `yyyy-mm-dd`
-   * @param endDate end of the time range, formatted as `yyyy-mm-dd`
-   * @returns a timetable containing all periods the user is part of, sorted by their start time
+   * @param startDate start of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @param endDate end of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @returns a timetable containing all lessons the user is part of.
    */
-  getOwnTimetable(startDate: string, endDate: string): Promise<Timetable> {
+  getOwnTimetable(
+    startDate: string | Date,
+    endDate: string | Date,
+  ): Promise<Timetable> {
     let userData = this.getUserData();
     return this.getTimetableForElement(
       startDate,
       endDate,
       userData.type,
-      userData.id
+      userData.id,
     );
   }
 
   /**
-   * Fetches the timetable for the given element in the specificed time range.
-   * May throw a JSON-RPC error if the current user doesn't have the necessary permissions.
-   * @param startDate start of the time range, formatted as `yyyy-mm-dd`
-   * @param endDate end of the time range, formatted as `yyyy-mm-dd`
-   * @param type the type of element
-   * @param id the element's id
-   * @returns a timetable containing all periods the element has access to
+   * Fetches the timetable for the element in the specificed time range.
+   * May throw {@link RpcError} if the current user doesn't have the necessary permissions to access its timetable.
+   * @param startDate start of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @param endDate end of the time range. If a string is provided, it is parsed by calling the {@link Date} constructor.
+   * @param type the type of element.
+   * @param id the element's id.
+   * @returns a timetable containing all periods the element is part of.
    */
-  getTimetableForElement(
-    startDate: string,
-    endDate: string,
+  async getTimetableForElement(
+    startDate: string | Date,
+    endDate: string | Date,
     type: ElementType.Teacher | ElementType.Student,
-    id: number
+    id: number,
   ): Promise<Timetable> {
     let params: requests.timetable.params = {
       options: {
@@ -221,35 +201,40 @@ export class UntisClient {
           id,
           type,
         },
-        startDate: convertToUntisDate(startDate),
-        endDate: convertToUntisDate(endDate),
+        startDate: formatUntisDate(new Date(startDate)),
+        endDate: formatUntisDate(new Date(endDate)),
         showBooking: true,
         showInfo: true,
         showSubstText: true,
         showLsText: true,
         showLsNumber: true,
         showStudentgroup: true,
-        klasseFields: ["id", "name", "longname"],
-        roomFields: ["id", "name", "longname"],
-        subjectFields: ["id", "name", "longname"],
-        teacherFields: ["id", "name", "longname"],
+        klasseFields: ["id", "name"],
+        roomFields: ["id", "name"],
+        subjectFields: ["id", "name"],
+        teacherFields: ["id", "name"],
       },
     };
 
-    return this.request<requests.timetable.result>(
+    let lessons = await this.request<requests.timetable.result>(
       requests.timetable.method,
-      params
-    ).then((t) => Timetable.from(t.map(Period.from)));
+      params,
+    );
+    return new Timetable(lessons.map(Lesson.from));
   }
 
   /**
-   * Returns data about the current user.
-   * @returns the data
-   * @throws {@link Error} if the client is not logged in
+   * Returns current user data.
+   * @throws {@link NotLoggedIn} if the client is not logged in.
    */
-  getUserData() {
+  getUserData(): {
+    loginName: string;
+    type: ElementType.Student | ElementType.Teacher;
+    id: number;
+    classId: number;
+  } {
     if (!this.loginData || !this.loginName) {
-      throw new Error("not logged in");
+      throw new NotLoggedIn();
     }
 
     return {
@@ -258,5 +243,11 @@ export class UntisClient {
       id: this.loginData.personId,
       classId: this.loginData.klasseId,
     };
+  }
+}
+
+class NotLoggedIn extends Error {
+  constructor() {
+    super("Client is not logged in");
   }
 }

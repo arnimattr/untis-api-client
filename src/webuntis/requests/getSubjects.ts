@@ -1,4 +1,4 @@
-import { subject } from "../resources/index.js";
+import { subject } from "webuntis/resources";
 
 export const method = "getSubjects";
 

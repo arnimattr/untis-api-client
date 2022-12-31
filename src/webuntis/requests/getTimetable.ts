@@ -1,4 +1,4 @@
-import { ElementType, period } from "../resources/index.js";
+import { ElementType, lesson } from "webuntis/resources";
 
 export const method = "getTimetable";
 
@@ -12,12 +12,12 @@ export type params = {
     /**
      * Formatted like yyyymmdd.
      */
-    startDate: number;
+    startDate: number | string;
 
     /**
      * Formatted like yyyymmdd.
      */
-    endDate: number;
+    endDate: number | string;
 
     showBooking: true;
     showInfo: true;
@@ -32,4 +32,4 @@ export type params = {
   };
 };
 
-export type result = period[];
+export type result = lesson[];

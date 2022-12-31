@@ -1,0 +1,35 @@
+{
+  "importMap": "import_map.json",
+
+  "lint": {
+    "files": { "exclude": ["npm"] },
+    "rules": {
+      "exclude": ["prefer-const"],
+      "include": [
+        "camelcase",
+        "explicit-function-return-type",
+        "explicit-module-boundary-types",
+        "eqeqeq",
+        "no-external-import",
+        "ban-untagged-todo"
+      ]
+    }
+  },
+
+  "test": {
+    "files": { "exclude": ["npm"] }
+  },
+
+  "fmt": {
+    "files": { "exclude": ["npm"] }
+  },
+
+  "tasks": {
+    "build_npm": "deno run -A scripts/build_npm.ts"
+  },
+
+  "compilerOptions": {
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true
+  }
+}

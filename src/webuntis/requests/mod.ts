@@ -1,0 +1,14 @@
+export * as authenticate from "./authenticate.ts";
+export { ErrorCode } from "./ErrorCode.ts";
+export * as getClasses from "./getClasses.ts";
+export * as getCurrentSchoolyear from "./getCurrentSchoolyear.ts";
+export * as getHolidays from "./getHolidays.ts";
+export * as latestImportTime from "./getLatestImportTime.ts";
+export * as getRooms from "./getRooms.ts";
+export * as getSchoolyears from "./getSchoolyears.ts";
+export * as getStudents from "./getStudents.ts";
+export * as getSubjects from "./getSubjects.ts";
+export * as getTeachers from "./getTeachers.ts";
+export * as timetable from "./getTimetable.ts";
+export * as logout from "./logout.ts";
+export * as searchSchool from "./searchSchool.ts";

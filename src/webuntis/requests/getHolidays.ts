@@ -1,4 +1,4 @@
-import { holiday } from "../resources/index.js";
+import { holiday } from "webuntis/resources";
 
 export const method = "getHolidays";
 

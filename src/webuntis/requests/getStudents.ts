@@ -1,4 +1,4 @@
-import { student } from "../resources/index.js";
+import { student } from "webuntis/resources";
 
 export const method = "getStudents";
 
