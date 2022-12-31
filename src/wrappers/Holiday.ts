@@ -1,14 +1,12 @@
-import { parse as parseDate } from "std/datetime/parse.ts";
 import { holiday } from "webuntis/resources";
+import { parseUntisDate } from "lib/datetime/untis.ts";
 
-/**
- * Wrapper around the holiday objects returned by the WebUntis API.
- */
+/** Wrapper around the holiday object. */
 export class Holiday {
   constructor(
-    /** The holiday's id */
+    /** The holiday's id, only unique per school. */
     readonly id: number,
-    /** The holiday's short name. */
+    /** The holiday's short, unique name. */
     readonly name: string,
     /** The holiday's full name. */
     readonly longName: string,
@@ -18,18 +16,14 @@ export class Holiday {
     readonly endDate: Date,
   ) {}
 
-  /**
-   * Creates a new instance of this class.
-   * @param holiday the holiday returned by WebUntis.
-   * @returns the new instance
-   */
-  static from(holiday: holiday) {
+  /** Creates a new instance of this class from a holiday object returned by WebUntis.  */
+  static from(holiday: holiday): Holiday {
     return new Holiday(
       holiday.id,
       holiday.name,
       holiday.longName,
-      parseDate(holiday.startDate.toString(), "yyyyMMdd"),
-      parseDate(holiday.endDate.toString(), "yyyyMMdd"),
+      parseUntisDate(holiday.startDate),
+      parseUntisDate(holiday.endDate),
     );
   }
 }

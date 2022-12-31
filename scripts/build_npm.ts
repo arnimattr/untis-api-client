@@ -1,3 +1,4 @@
+// deno-lint-ignore no-external-import
 import { build, emptyDir } from "https://deno.land/x/dnt@0.32.1/mod.ts";
 
 if (Deno.args[0] === undefined) {

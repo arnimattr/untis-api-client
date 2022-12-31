@@ -1,8 +1,27 @@
 {
-  "importMap": "./import_map.json",
+  "importMap": "import_map.json",
 
   "lint": {
-    "rules": { "exclude": ["prefer-const"], "include": ["camelcase"] }
+    "files": { "exclude": ["npm"] },
+    "rules": {
+      "exclude": ["prefer-const"],
+      "include": [
+        "camelcase",
+        "explicit-function-return-type",
+        "explicit-module-boundary-types",
+        "eqeqeq",
+        "no-external-import",
+        "ban-untagged-todo"
+      ]
+    }
+  },
+
+  "test": {
+    "files": { "exclude": ["npm"] }
+  },
+
+  "fmt": {
+    "files": { "exclude": ["npm"] }
   },
 
   "tasks": {

@@ -1,4 +1,4 @@
-import { ElementType, period } from "webuntis/resources";
+import { ElementType, lesson } from "webuntis/resources";
 
 export const method = "getTimetable";
 
@@ -32,4 +32,4 @@ export type params = {
   };
 };
 
-export type result = period[];
+export type result = lesson[];

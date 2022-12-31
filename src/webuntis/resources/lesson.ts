@@ -1,4 +1,4 @@
-export type period = {
+export type lesson = {
   id: number;
   date: number;
   startTime: number;
@@ -8,15 +8,15 @@ export type period = {
   lsnumber: number;
   lstext: string;
   substText?: string;
-  activityType: "Unterricht" | "Bereitschaft";
+  activityType: string;
   sg?: string;
-  kl: element[];
-  te: element[];
-  su: element[];
-  ro: element[];
+  kl: lessonElement[];
+  te: lessonElement[];
+  su: lessonElement[];
+  ro: lessonElement[];
 };
 
-export type element = {
+export type lessonElement = {
   id: number;
   name: string;
   longname: string;

@@ -1,14 +1,14 @@
-import { getSetCookies } from "std/http/cookie.ts";
-import { logger } from "./logger.ts";
+import { getSetCookies } from "std/http/mod.ts";
+import { log } from "./requestLogger.ts";
 
-type rpcRequest = {
+type RpcRequest = {
   jsonrpc: "2.0";
   id: number | string;
   method: string;
   params?: unknown;
 };
 
-type rpcResponse =
+type RpcResponse =
   & {
     jsonrpc: "2.0";
     id: number | string;
@@ -27,7 +27,7 @@ type rpcResponse =
     }
   );
 
-export class RPCClient {
+export class RpcClient {
   readonly url: string;
   private cookies: Record<string, string>;
 
@@ -37,7 +37,7 @@ export class RPCClient {
   }
 
   async request<Result>(method: string, params?: unknown): Promise<Result> {
-    let rpcRequest: rpcRequest = {
+    let rpcRequest: RpcRequest = {
       jsonrpc: "2.0",
       id: `${Date.now() % 1e6}:${Math.floor(Math.random() * 1e6)}`,
       method,
@@ -50,26 +50,27 @@ export class RPCClient {
       body: JSON.stringify(rpcRequest),
       headers: {
         "Content-Type": "application/json",
-        Cookie: Object.entries(this.cookies)
-          .map(([key, value]) => `${key}=${value}`)
-          .join(";"),
+        Cookie: Object.entries(this.cookies).map(([name, value]) =>
+          `${name}=${value}`
+        ).join(";"),
       },
     });
-    logger?.(method, Date.now() - t0);
+    log?.(method, Date.now() - t0);
 
     if (response.status !== 200) {
-      throw new HTTPStatusError(200, response.statusText);
+      throw new BadHTTPStatus(200, response.statusText);
     }
 
     let resBody = await response.json();
 
-    let { result, error } = resBody as rpcResponse;
+    let { result, error } = resBody as RpcResponse;
 
     if (error) {
-      throw new RPCError(error.code, error.message);
+      throw new RpcError(error.code, error.message);
     }
 
     for (let { name, value } of getSetCookies(response.headers)) {
+      console.log({ name, value });
       this.cookies[name] = value;
     }
 
@@ -77,13 +78,13 @@ export class RPCClient {
   }
 }
 
-export class HTTPStatusError extends Error {
+export class BadHTTPStatus extends Error {
   constructor(readonly expected: number, readonly got: string) {
-    super(`HTTP Status Code Error: expected ${expected}, got ${got}`);
+    super(`Bad HTTP response status: expected ${expected}, got ${got}`);
   }
 }
 
-export class RPCError extends Error {
+export class RpcError extends Error {
   constructor(readonly code: number, readonly message: string) {
     super(`JSON-RPC Error: ${code} - ${message}`);
   }

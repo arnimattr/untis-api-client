@@ -1,14 +1,14 @@
-import { RPCClient, RPCError } from "lib/jsonrpc/mod.ts";
+import { RpcClient, RpcError } from "lib/jsonrpc/mod.ts";
 import { ErrorCode, searchSchool } from "webuntis/requests";
 import { School } from "./wrappers/mod.ts";
 
-const rpcClient = new RPCClient("https://mobile.webuntis.com/ms/schoolquery2");
+const rpcClient = new RpcClient("https://mobile.webuntis.com/ms/schoolquery2");
 
 async function findSchools(query: searchSchool.params): Promise<School[]> {
   let { schools } = await rpcClient
     .request<searchSchool.result>(searchSchool.method, query)
     .catch((e) => {
-      if (e instanceof RPCError && e.code == ErrorCode.TooManyResults) {
+      if (e instanceof RpcError && e.code === ErrorCode.TooManyResults) {
         return { schools: [] };
       }
       throw e;
