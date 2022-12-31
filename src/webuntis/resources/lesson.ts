@@ -19,7 +19,6 @@ export type lesson = {
 export type lessonElement = {
   id: number;
   name: string;
-  longname: string;
 
   /**
    * If this is not `undefined`, this is the id of the original element and

@@ -1,9 +1,7 @@
 import { school } from "webuntis/resources";
 import { UntisClient } from "../UntisClient.ts";
 
-/**
- * Wrapper around the school object.
- */
+/** Wrapper around the school object. */
 export class School {
   constructor(
     /** The WebUntis server that is used by this school. Formatted as `xxx.webuntis.com`, i.e. `ikarus.webuntis.com`. */

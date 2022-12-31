@@ -54,7 +54,7 @@ export class UntisClient {
 
   /**
    * Logs in as a user. Needs to be called before accessing all other methods.
-   * You should log out ({@link UntisClient.logout()}) as soon as possible to free resources on WebUntis' servers.
+   * You should log out ({@link logout()}) as soon as possible to free resources on WebUntis' servers.
    * @param username username to log in with.
    * @param password user password.
    * @returns a {@link LoginStatus} describing whether the login was successful.
@@ -209,10 +209,10 @@ export class UntisClient {
         showLsText: true,
         showLsNumber: true,
         showStudentgroup: true,
-        klasseFields: ["id", "name", "longname"],
-        roomFields: ["id", "name", "longname"],
-        subjectFields: ["id", "name", "longname"],
-        teacherFields: ["id", "name", "longname"],
+        klasseFields: ["id", "name"],
+        roomFields: ["id", "name"],
+        subjectFields: ["id", "name"],
+        teacherFields: ["id", "name"],
       },
     };
 

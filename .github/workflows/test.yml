@@ -17,6 +17,11 @@ jobs:
       - name: Type-check code
         run: deno check mod.ts
 
+      - name: Type-check examples
+        run: | 
+          shopt -s globstar
+          for f in examples/**/*.ts; do deno check $f; done
+
       - name: Run tests
         run: deno test --allow-none --doc
 

@@ -1,5 +1,4 @@
-import { format } from "std/datetime/format.ts";
-import { parse } from "std/datetime/parse.ts";
+import { format, parse } from "std/datetime/mod.ts";
 import { Time } from "./Time.ts";
 
 /** Parse a date from the WebUntis API into a JS Date object using local time. */
@@ -10,7 +9,7 @@ export function parseUntisDate(date: string | number): Date {
 /** Parse a time from the WebUntis API into a {@link Time} object. */
 export function parseUntisTime(time: string | number): Time {
   time = String(time).padStart(4, "0");
-  return Time.fromDate(parse(time, "hhmm"));
+  return Time.fromDate(parse(time, "HHmm"));
 }
 
 /** Format a JS Date object into a format understood by the WebUntis API.  */

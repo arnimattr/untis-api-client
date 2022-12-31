@@ -34,7 +34,7 @@ if (status !== LoginStatus.Ok) {
 }
 
 let timetable = await client.getOwnTimetable("2022-01-01", "2022-12-31");
-client.logout();
+await client.logout();
 
 console.log(timetable.lessons);
 ```

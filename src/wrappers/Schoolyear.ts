@@ -1,9 +1,7 @@
 import { schoolyear } from "webuntis/resources";
 import { parseUntisDate } from "lib/datetime/untis.ts";
 
-/**
- * Wrapper around the schoolyear object.
- */
+/** Wrapper around the schoolyear object. */
 export class Schoolyear {
   constructor(
     /** The schoolyear's id. Only unique per school. */

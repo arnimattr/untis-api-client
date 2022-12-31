@@ -70,7 +70,6 @@ export class RpcClient {
     }
 
     for (let { name, value } of getSetCookies(response.headers)) {
-      console.log({ name, value });
       this.cookies[name] = value;
     }
 

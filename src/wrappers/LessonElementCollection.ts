@@ -1,8 +1,10 @@
 import { lesson } from "../webuntis/resources/lesson.ts";
 import { LessonElement } from "./LessonElement.ts";
 
-export class LessonElements {
+/** Represents a collection of elements included in a lesson. */
+export class LessonElementCollection {
   constructor(
+    /** The elements in the collection. */
     readonly elements: {
       readonly classes: readonly LessonElement[];
       readonly teachers: readonly LessonElement[];
@@ -11,8 +13,9 @@ export class LessonElements {
     },
   ) {}
 
-  static fromLesson(lesson: lesson): LessonElements {
-    return new LessonElements({
+  /** Creates a new collection from a lesson object. */
+  static fromLesson(lesson: lesson): LessonElementCollection {
+    return new LessonElementCollection({
       classes: lesson.kl.map(LessonElement.from),
       rooms: lesson.ro.map(LessonElement.from),
       subjects: lesson.su.map(LessonElement.from),
@@ -20,7 +23,8 @@ export class LessonElements {
     });
   }
 
-  originalElements(): LessonElements {
+  /** Returns a new collection containing the elements that were originally in the lesson's schedule. */
+  originalElements(): LessonElementCollection {
     let elements = { ...this.elements };
 
     for (let [type, typeElements] of Object.entries(elements)) {
@@ -32,12 +36,13 @@ export class LessonElements {
       );
     }
 
-    return new LessonElements(elements);
+    return new LessonElementCollection(elements);
   }
 
-  equals(other: LessonElements): boolean {
+  /** Checks whether two collections contain the same elements. */
+  equals(other: LessonElementCollection): boolean {
     for (let key in this.elements) {
-      let type = key as keyof LessonElements["elements"];
+      let type = key as keyof LessonElementCollection["elements"];
       if (
         this.elements[type].map((e) => e.id).sort().join() !==
           other.elements[type].map((e) => e.id).sort().join()

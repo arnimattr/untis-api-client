@@ -1,4 +1,4 @@
-/** Represents the success status of a login attempt. */
+/** Represents the success of a login attempt. */
 export enum LoginStatus {
   /** Login was successful. */
   Ok,
