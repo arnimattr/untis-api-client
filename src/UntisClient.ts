@@ -246,7 +246,7 @@ export class UntisClient {
   }
 }
 
-class NotLoggedIn extends Error {
+export class NotLoggedIn extends Error {
   constructor() {
     super("Client is not logged in");
   }
