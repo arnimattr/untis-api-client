@@ -1,7 +1,7 @@
 import { RpcClient, RpcError } from "lib/jsonrpc/mod.ts";
+import { formatUntisDate } from "lib/datetime/untis.ts";
 import * as requests from "webuntis/requests";
 import { ElementType } from "webuntis/resources";
-import { formatUntisDate } from "../lib/datetime/untis.ts";
 import {
   Class,
   Holiday,
@@ -54,7 +54,7 @@ export class UntisClient {
 
   /**
    * Logs in as a user. Needs to be called before accessing all other methods.
-   * You should log out ({@link logout()}) as soon as possible to free resources on WebUntis' servers.
+   * You should log out ({@link UntisClient.logout()}) as soon as possible to free resources on WebUntis' servers.
    * @param username username to log in with.
    * @param password user password.
    * @returns a {@link LoginStatus} describing whether the login was successful.

@@ -1,4 +1,4 @@
-import { Time } from "lib/datetime/Time.ts";
+import { Time } from "lib/datetime/mod.ts";
 import { Lesson } from "./Lesson.ts";
 
 /**
@@ -31,9 +31,14 @@ export class Schedule {
     this.lessons = { changed: [], unchanged: [] };
   }
 
+  /** Returns a unique identifier for this schedule that consists of its lesson number, weekday and start time. */
+  uniqueIdentifier(): string {
+    return [this.lessonNumber, this.weekDay, this.startTime].join("::");
+  }
+
   /**
    * Checks whether two schedule objects represent the same unique lesson schedule.
-   * Two schedules are equal if {@link belongsToSameStudentGroup()} is true,
+   * Two schedules are equal if {@link Schedule.belongsToSameStudentGroup()} is true,
    * they occur on the same weekday, and start/end at the same time.
    */
   equals(other: Schedule): boolean {
@@ -45,17 +50,16 @@ export class Schedule {
 
   /**
    * Checks whether two schedules belong to the same student group (combination of class and subject).
-   * Is true if their lesson numbers, student group names, and lesson texts are the same.
+   * Is true if their lesson numbers are the same.
    */
   belongsToSameStudentGroup(other: Schedule): boolean {
-    return this.lessonNumber === other.lessonNumber &&
-      this.studentGroup === other.studentGroup &&
-      this.lessonText === other.lessonText;
+    return this.lessonNumber === other.lessonNumber;
   }
 
   /**
    * Adds a new lesson to the internal lesson list based on whether it deviates from its schedule.
-   * Should only be called after validating that `lesson.getSchedule().equals(schedule)` is true.
+   * Should only be used after making sure that the lesson belongs to this schedule by checking
+   * `lesson.getSchedule().equals(schedule)`.
    */
   addLesson(lesson: Lesson): void {
     if (lesson.deviatesFromSchedule()) this.lessons.changed.push(lesson);
@@ -76,6 +80,8 @@ export class Schedule {
 
   /**
    * Creates a new schedule by combining this schedule with a sequential schedule.
+   * The lessons in {@link Schedule.lessons} will also be combined if possible.
+   * Any lessons that can't be combined will be moved to {@link Schedule.lessons.changed}.
    */
   combineWith(other: Schedule): Schedule {
     let schedule = new Schedule(
@@ -114,24 +120,27 @@ export class Schedule {
 }
 
 function combineLessons(...lessons: Lesson[]): Lesson[] {
-  lessons = [...lessons].sort((a, b) =>
-    a.startTime.withDate(a.date).valueOf() -
-    b.startTime.withDate(b.date).valueOf()
-  );
+  let lessonMap = new Map<string, Lesson[]>();
 
-  for (let i = 0; i < lessons.length - 1;) {
-    let curr = lessons[i]!,
-      next = lessons[i + 1]!;
-
-    if (curr.isSequential(next)) {
-      // Remove curr and next and insert the combined lessons
-      lessons.splice(i, 2, curr.combineWith(next));
-    } else {
-      // Only increment if the lessons haven't been combined
-      // Maybe three lessons in a row are sequential
-      i++;
+  for (let lesson of lessons) {
+    let ident = lesson.uniqueIdentifier();
+    if (!lessonMap.has(ident)) {
+      lessonMap.set(ident, []);
     }
+
+    let otherLessons = lessonMap.get(ident)!;
+
+    let wasCombined = false;
+    for (let i = 0; i < otherLessons.length;) {
+      let otherLesson = otherLessons[i]!;
+      if (lesson.isSequential(otherLesson)) {
+        otherLessons.splice(i, 2, lesson.combineWith(otherLesson));
+        wasCombined = true;
+      } else i++;
+    }
+
+    if (!wasCombined) otherLessons.push(lesson);
   }
 
-  return lessons;
+  return Array.from(lessonMap.values()).flat();
 }
