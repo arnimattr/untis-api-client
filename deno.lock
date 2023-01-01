@@ -141,6 +141,24 @@
     "https://deno.land/x/ts_morph@17.0.1/common/ts_morph_common.d.ts": "ee7767b0c68b23c65bb607c94b6cb3512e8237fbcb7d1d8383a33235cde2c068",
     "https://deno.land/x/ts_morph@17.0.1/common/ts_morph_common.js": "49a79124b941ba2b35d81ac9eb90fc33c957b2640cdb97569c1941bac5a3bbdb",
     "https://deno.land/x/ts_morph@17.0.1/common/typescript.d.ts": "57e52a0882af4e835473dda27e4316cc31149866970210f9f79b940e916b7838",
-    "https://deno.land/x/ts_morph@17.0.1/common/typescript.js": "5dd669eb199ee2a539924c63a92e23d95df43dfe2fbe3a9d68c871648be1ad5e"
+    "https://deno.land/x/ts_morph@17.0.1/common/typescript.js": "5dd669eb199ee2a539924c63a92e23d95df43dfe2fbe3a9d68c871648be1ad5e",
+    "https://deno.land/x/untis_api_client@v1.2.0/lib/datetime/Time.ts": "bce56d8ca2fb7743081687417ff9aacb78ed229857b5150dcc2abee4ccf9b8a9",
+    "https://deno.land/x/untis_api_client@v1.2.0/lib/datetime/TimeUnits.ts": "37bb6070353d2b6e4def24d2082b4787895ec73e10d21543861cac5e6a0252b2",
+    "https://deno.land/x/untis_api_client@v1.2.0/lib/datetime/untis.ts": "aad88340bb93d156760bb3a9ccaf155ea58359c24ff5b4bd1f93650fd7f59a9b",
+    "https://deno.land/x/untis_api_client@v1.2.0/mod.ts": "374b8f52cebd831ad9d76a29dfd406ed68aa87d254130ef4e3c08557fa7489cb",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/UntisClient.ts": "bd3d360c908d5a7d803bcd4721abf9b84b05c76d58b2f1a3889d1bad45b00ae0",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/searchSchools.ts": "ad8bcb3c345c3cee9ea6015fc87d393aea94475082572cedda48868c04f6390f",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/webuntis/resources/lesson.ts": "a4340d501cc56e508621704bfd40bd83cd7fcf4597915d11b0d7e0608f8ccb3c",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/Holiday.ts": "0f11d597ce560fa61034c4189d8a670e14673cdfb27bb1958b0d88b1cbb1025e",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/Lesson.ts": "e8ec990108a212988acc4191d2edcffa7ed3515e5ae0680509732ac4c429ee2e",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/LessonElement.ts": "7ac4e8c7919e109393e01056d13e0fb09c1b2cbe5fc41c7bb2c3fd3672c1f0ba",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/LessonElementCollection.ts": "1428ffddd48fd10236da0e1b3de8e7ef37b7d523509145538e96cc0d393753be",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/LoginStatus.ts": "f39caa76bf524f57c4c9d0790287d85edd31ea5496ec380a662f7a25db51ee1d",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/Schedule.ts": "78b6c4bccc62e8dff0001a1fe264914ed36d2ae76eec9dc3de610e04b717202c",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/ScheduleCollection.ts": "126df8f6bd48809629f060b6da2637b2143019924bd263e9ac88704496fedd92",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/School.ts": "89805e12780592b38c7815414b2fa43b8863a051eb12a37600d3ead79df78d59",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/Schoolyear.ts": "2644db2e77cc958f22e503a8c9c1548224d084d2eecf1f31d514a3b42bb2e85a",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/Timetable.ts": "adc307dc4543428a77fb17e6f423a26461c4b6483aad6f7e83bd00ee5023e355",
+    "https://deno.land/x/untis_api_client@v1.2.0/src/wrappers/mod.ts": "8a64d6adc4cf1d7b569f0d3048f4efbbb0ba8692e5cea8dc2f139b4c0616346a"
   }
 }

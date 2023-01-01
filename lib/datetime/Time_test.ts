@@ -33,5 +33,5 @@ Deno.test("Time.diffTo() - should be +1 hour", () => {
   let a = new Time(10, 30);
   let b = new Time(11, 30);
 
-  assert(a.diffTo(b) === TimeUnits.Hour * 1);
+  assert(a.diffTo(b) === 60);
 });

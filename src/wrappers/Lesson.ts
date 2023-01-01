@@ -1,6 +1,5 @@
-import { parseUntisDate, Time } from "lib/datetime/mod.ts";
+import { parseUntisDate, parseUntisTime, Time } from "lib/datetime/mod.ts";
 import { lesson } from "webuntis/resources";
-import { parseUntisTime } from "../../lib/datetime/untis.ts";
 import { LessonElementCollection } from "./LessonElementCollection.ts";
 import { Schedule } from "./Schedule.ts";
 
@@ -84,6 +83,11 @@ export class Lesson {
       lesson.sg || null,
       LessonElementCollection.fromLesson(lesson),
     );
+  }
+
+  /** Returns a unique identifier for this lesson that consists of its lesson number and date. */
+  uniqueIdentifier(): string {
+    return [this.lessonNumber, this.date.valueOf()].join("::");
   }
 
   /** Creates a new schedule object that represents the schedule the lesson belongs to. */

@@ -1,4 +1,4 @@
-import { lessonElement } from "../webuntis/resources/lesson.ts";
+import { lessonElement } from "webuntis/resources";
 
 /** Wrapper around an element included in a {@link Lesson}. */
 export class LessonElement {

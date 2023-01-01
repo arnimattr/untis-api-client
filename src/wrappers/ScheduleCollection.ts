@@ -1,8 +1,6 @@
 import { Lesson } from "./Lesson.ts";
 import { Schedule } from "./Schedule.ts";
 
-// TODO(@arnim279): optimize complexity of creating/combining schedules
-
 /** Utility for dealing with schedules. */
 export class ScheduleCollection implements Iterable<Schedule> {
   constructor(
@@ -18,23 +16,22 @@ export class ScheduleCollection implements Iterable<Schedule> {
 
   /** Creates a new collection from a list of lessons. */
   static fromLessons(lessons: Lesson[]): ScheduleCollection {
-    let schedules = [];
+    let schedules = new Map<string, Schedule>();
 
-    lessonLoop:
     for (let lesson of lessons) {
-      for (let schedule of schedules) {
-        if (lesson.belongsToSchedule(schedule)) {
-          schedule.addLesson(lesson);
-          continue lessonLoop;
-        }
+      let schedule = lesson.getSchedule();
+      if (schedules.has(schedule.uniqueIdentifier())) {
+        schedule = schedules.get(schedule.uniqueIdentifier())!;
+      } else {
+        schedules.set(schedule.uniqueIdentifier(), schedule);
       }
 
-      let schedule = lesson.getSchedule();
-      schedule.addLesson(lesson);
-      schedules.push(schedule);
+      if (lesson.deviatesFromSchedule()) {
+        schedule.lessons.changed.push(lesson);
+      } else schedule.lessons.unchanged.push(lesson);
     }
 
-    return new ScheduleCollection(schedules);
+    return new ScheduleCollection(Array.from(schedules.values()));
   }
 
   [Symbol.iterator](): IterableIterator<Schedule> {
@@ -43,13 +40,13 @@ export class ScheduleCollection implements Iterable<Schedule> {
 
   /** Returns all lessons included in the schedules. */
   getAllLessons(): Lesson[] {
-    return this.schedules.reduce<Lesson[]>((c, schedule) => {
-      c.push(...schedule.getAllLessons());
-      return c;
-    }, []);
+    return this.schedules.map((schedule) => schedule.getAllLessons()).flat();
   }
 
-  /** Tries to combine sequential schedules into longer schedules and returns them in a new collection. */
+  /**
+   * Combines sequential schedules into longer schedules and returns them in a new collection.
+   * Lessons in {@link Schedule.lessons} will also be combined if possible.
+   */
   combineSequentialSchedules(): ScheduleCollection {
     let schedules = [...this.schedules];
     for (let i = 0; i < schedules.length - 1;) {

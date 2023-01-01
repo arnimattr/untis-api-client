@@ -5,7 +5,7 @@ import { ScheduleCollection } from "./ScheduleCollection.ts";
  * Wrapper around the timetable list of lessons.
  * WebUntis returns lessons matching the school's timegrid,
  * if you want to interact with the weekly lesson schedules instead of every single occurrence,
- * you can use the {@link ScheduleCollection} by calling {@link getScheduleCollection()} to do so.
+ * you can get the corresponding {@link ScheduleCollection} by calling {@link getScheduleCollection()} to do so.
  */
 export class Timetable implements Iterable<Lesson> {
   constructor(
