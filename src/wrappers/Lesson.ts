@@ -1,5 +1,9 @@
-import { parseUntisDate, parseUntisTime, Time } from "lib/datetime/mod.ts";
-import { lesson } from "webuntis/resources";
+import {
+  parseUntisDate,
+  parseUntisTime,
+  Time,
+} from "../../lib/datetime/mod.ts";
+import { lesson } from "../webuntis/resources/mod.ts";
 import { LessonElementCollection } from "./LessonElementCollection.ts";
 import { Schedule } from "./Schedule.ts";
 

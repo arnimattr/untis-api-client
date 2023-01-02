@@ -1,4 +1,4 @@
-import { schoolyear } from "webuntis/resources";
+import { schoolyear } from "../resources/mod.ts";
 
 export const method = "getSchoolyears";
 

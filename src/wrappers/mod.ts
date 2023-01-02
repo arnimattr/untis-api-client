@@ -5,7 +5,7 @@ export type {
   student as Student,
   subject as Subject,
   teacher as Teacher,
-} from "webuntis/resources";
+} from "../webuntis/resources/mod.ts";
 export * from "./Holiday.ts";
 export * from "./LoginStatus.ts";
 export * from "./Lesson.ts";

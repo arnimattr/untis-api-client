@@ -1,4 +1,4 @@
-import { ElementType, lesson } from "webuntis/resources";
+import { ElementType, lesson } from "../resources/mod.ts";
 
 export const method = "getTimetable";
 

@@ -1,5 +1,5 @@
 import { TimeUnits } from "./TimeUnits.ts";
-import { assert } from "std/testing/asserts.ts";
+import { assert } from "../../deps.ts";
 
 /** Helper for comparing the start and end times of lessons. By no means a replacement for {@link Date}. */
 export class Time {

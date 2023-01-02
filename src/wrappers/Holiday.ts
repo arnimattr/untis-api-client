@@ -1,5 +1,5 @@
-import { holiday } from "webuntis/resources";
-import { parseUntisDate } from "lib/datetime/untis.ts";
+import { parseUntisDate } from "../../lib/datetime/untis.ts";
+import { holiday } from "../webuntis/resources/mod.ts";
 
 /** Wrapper around the holiday object. */
 export class Holiday {

@@ -1,4 +1,4 @@
-import { schoolClass } from "webuntis/resources";
+import { schoolClass } from "../resources/mod.ts";
 
 export const method = "getKlassen";
 

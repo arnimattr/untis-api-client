@@ -1,4 +1,4 @@
-import { Time } from "lib/datetime/mod.ts";
+import { Time } from "../../lib/datetime/mod.ts";
 import { Lesson } from "./Lesson.ts";
 
 /**

@@ -1,6 +1,4 @@
 {
-  "importMap": "import_map.json",
-
   "lint": {
     "files": { "exclude": ["npm"] },
     "rules": {
@@ -10,7 +8,6 @@
         "explicit-function-return-type",
         "explicit-module-boundary-types",
         "eqeqeq",
-        "no-external-import",
         "ban-untagged-todo"
       ]
     }

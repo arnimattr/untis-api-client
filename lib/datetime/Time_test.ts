@@ -1,4 +1,4 @@
-import { assert } from "std/testing/asserts.ts";
+import { assert } from "../../deps.ts";
 import { Time } from "./mod.ts";
 
 Deno.test("Time.selectEarlier() - should work with different hours", () => {
