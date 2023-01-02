@@ -1,4 +1,4 @@
-import { school } from "webuntis/resources";
+import { school } from "../webuntis/resources/mod.ts";
 import { UntisClient } from "../UntisClient.ts";
 
 /** Wrapper around the school object. */

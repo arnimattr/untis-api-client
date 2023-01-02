@@ -1,5 +1,5 @@
-import { schoolyear } from "webuntis/resources";
-import { parseUntisDate } from "lib/datetime/mod.ts";
+import { schoolyear } from "../webuntis/resources/mod.ts";
+import { parseUntisDate } from "../../lib/datetime/mod.ts";
 
 /** Wrapper around the schoolyear object. */
 export class Schoolyear {

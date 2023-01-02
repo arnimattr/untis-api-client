@@ -1,7 +1,7 @@
-import { RpcClient, RpcError } from "lib/jsonrpc/mod.ts";
-import { formatUntisDate } from "lib/datetime/untis.ts";
-import * as requests from "webuntis/requests";
-import { ElementType } from "webuntis/resources";
+import { RpcClient, RpcError } from "../lib/jsonrpc/mod.ts";
+import { formatUntisDate } from "../lib/datetime/untis.ts";
+import * as requests from "./webuntis/requests/mod.ts";
+import { ElementType } from "./webuntis/resources/mod.ts";
 import {
   Class,
   Holiday,

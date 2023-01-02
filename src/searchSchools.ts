@@ -1,5 +1,5 @@
-import { RpcClient, RpcError } from "lib/jsonrpc/mod.ts";
-import { ErrorCode, searchSchool } from "webuntis/requests";
+import { RpcClient, RpcError } from "../lib/jsonrpc/mod.ts";
+import { ErrorCode, searchSchool } from "./webuntis/requests/mod.ts";
 import { School } from "./wrappers/mod.ts";
 
 const rpcClient = new RpcClient("https://mobile.webuntis.com/ms/schoolquery2");

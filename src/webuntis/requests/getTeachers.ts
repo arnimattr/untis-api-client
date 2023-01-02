@@ -1,4 +1,4 @@
-import { teacher } from "webuntis/resources";
+import { teacher } from "../resources/mod.ts";
 
 export const method = "getTeachers";
 

@@ -1,4 +1,4 @@
-import { getSetCookies } from "std/http/mod.ts";
+import { getSetCookies } from "../../deps.ts";
 import { log } from "./requestLogger.ts";
 
 type RpcRequest = {

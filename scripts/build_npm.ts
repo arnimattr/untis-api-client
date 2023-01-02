@@ -17,7 +17,8 @@ await build({
 
   // Needed for fetch() and other modern APIs
   compilerOptions: {
-    lib: ["dom", "dom.iterable"],
+    target: "ES2021",
+    lib: ["esnext", "dom", "dom.iterable"],
   },
 
   // Technically not needed
@@ -40,6 +41,9 @@ await build({
     },
     engines: {
       node: ">=18",
+    },
+    devDependencies: {
+      "@types/node": "^17",
     },
   },
 });

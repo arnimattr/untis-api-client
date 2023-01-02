@@ -1,4 +1,4 @@
-import { lesson } from "webuntis/resources";
+import { lesson } from "../webuntis/resources/mod.ts";
 import { LessonElement } from "./LessonElement.ts";
 
 /** Represents a collection of elements included in a lesson. */

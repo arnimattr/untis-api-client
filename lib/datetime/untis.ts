@@ -1,4 +1,4 @@
-import { format, parse } from "std/datetime/mod.ts";
+import { format, parse } from "../../deps.ts";
 import { Time } from "./Time.ts";
 
 /** Parse a date from the WebUntis API into a JS Date object using local time. */

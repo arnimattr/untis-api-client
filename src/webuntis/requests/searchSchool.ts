@@ -1,4 +1,4 @@
-import { school } from "webuntis/resources";
+import { school } from "../resources/mod.ts";
 
 export const method = "searchSchool";
 

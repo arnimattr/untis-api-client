@@ -1,4 +1,4 @@
-import { holiday } from "webuntis/resources";
+import { holiday } from "../resources/mod.ts";
 
 export const method = "getHolidays";
 

@@ -1,5 +1,5 @@
-import { assert } from "std/testing/asserts.ts";
-import { Time } from "lib/datetime/mod.ts";
+import { assert } from "../../deps.ts";
+import { Time } from "../../lib/datetime/mod.ts";
 import {
   Lesson,
   LessonElement,
