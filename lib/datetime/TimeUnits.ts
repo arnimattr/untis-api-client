@@ -1,4 +1,4 @@
-/** The number of milliseconds in each unit of time. */
+/** Different time units, represented in milliseconds. */
 export enum TimeUnits {
   Millisecond = 1,
   Second = 1000 * TimeUnits.Millisecond,

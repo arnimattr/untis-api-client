@@ -1,1 +1,3 @@
 /npm
+*.ignore.*
+.DS_STORE

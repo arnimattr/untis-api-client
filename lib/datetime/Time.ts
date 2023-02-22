@@ -49,7 +49,7 @@ export class Time {
     return this.hours > other.hours ? this : other;
   }
 
-  /** Difference between to dates, returned in minutes.  */
+  /** Difference between two dates, in minutes.  */
   diffTo(other: Time): number {
     let diff = (other.hours - this.hours) * TimeUnits.Hour +
       (other.minutes - this.minutes) * TimeUnits.Minute;
@@ -64,6 +64,8 @@ export class Time {
   }
 
   toString(): string {
-    return `${this.hours}:${this.minutes}`;
+    return `${this.hours.toString().padStart(2, "0")}:${
+      this.minutes.toString().padStart(2, "0")
+    }`;
   }
 }

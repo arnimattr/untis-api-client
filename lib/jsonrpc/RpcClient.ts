@@ -1,5 +1,5 @@
-import { getSetCookies } from "../../deps.ts";
-import { log } from "./requestLogger.ts";
+import { http } from "../../deps.ts";
+import { log } from "./RequestLogger.ts";
 
 type RpcRequest = {
   jsonrpc: "2.0";
@@ -58,7 +58,7 @@ export class RpcClient {
     log?.(method, Date.now() - t0);
 
     if (response.status !== 200) {
-      throw new BadHTTPStatus(200, response.statusText);
+      throw new BadHttpStatus(200, response.statusText);
     }
 
     let resBody = await response.json();
@@ -69,7 +69,7 @@ export class RpcClient {
       throw new RpcError(error.code, error.message);
     }
 
-    for (let { name, value } of getSetCookies(response.headers)) {
+    for (let { name, value } of http.getSetCookies(response.headers)) {
       this.cookies[name] = value;
     }
 
@@ -77,7 +77,7 @@ export class RpcClient {
   }
 }
 
-export class BadHTTPStatus extends Error {
+export class BadHttpStatus extends Error {
   constructor(readonly expected: number, readonly got: string) {
     super(`Bad HTTP response status: expected ${expected}, got ${got}`);
   }

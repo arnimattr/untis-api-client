@@ -45,10 +45,12 @@ export class ScheduleCollection implements Iterable<Schedule> {
 
   /**
    * Combines sequential schedules into longer schedules and returns them in a new collection.
-   * Lessons in {@link Schedule.lessons} will also be combined if possible.
+   * Lessons in {@link Schedule#lessons} will also be combined if possible.
    */
   combineSequentialSchedules(): ScheduleCollection {
     let schedules = [...this.schedules];
+
+    // A loop is enough because the lessons were sorted in the constructor
     for (let i = 0; i < schedules.length - 1;) {
       let curr = schedules[i]!,
         next = schedules[i + 1]!;
