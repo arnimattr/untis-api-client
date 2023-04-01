@@ -1,11 +1,11 @@
 export type {
-  ElementType,
   room as Room,
   schoolClass as Class,
   student as Student,
   subject as Subject,
   teacher as Teacher,
 } from "../webuntis/resources/mod.ts";
+export { ElementType } from "../webuntis/resources/mod.ts";
 export * from "./Holiday.ts";
 export * from "./LoginStatus.ts";
 export * from "./Lesson.ts";
